@@ -35,3 +35,4 @@
 /db/schema.rb
 /.byebug_history
 /.vscode/
+/config/credentials/credentials.json

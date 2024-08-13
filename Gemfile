@@ -45,3 +45,8 @@ group :development do
   # gem "spring"
 end
 
+gem 'google-apis-drive_v3', '~> 0.16'
+gem 'googleauth', '~> 0.16'
+
+gem 'amazing_print'
+gem 'rack-cors', require: 'rack/cors'
