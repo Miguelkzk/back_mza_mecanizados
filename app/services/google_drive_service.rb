@@ -17,6 +17,17 @@ class GoogleDriveService
     @service.list_files(fields: 'nextPageToken, files(id, name)')
   end
 
+  def create_folder(name, parent_id = nil)
+    file_metadata = {
+      name: name,
+      mime_type: 'application/vnd.google-apps.folder'
+    }
+    file_metadata[:parents] = [parent_id] if parent_id
+
+    # Llamada para crear carpeta y me devuelve la carpeta creada
+    @service.create_file(file_metadata, fields: 'id')
+  end
+
   private
 
   def authorize
