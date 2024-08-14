@@ -14,7 +14,7 @@ class GoogleDriveService
   end
 
   def list_files
-    @service.list_files(fields: 'nextPageToken, files(id, name)')
+    @service.list_files(fields: 'nextPageToken, files(id, name, trashed)')
   end
 
   def create_folder(name, parent_id = nil)
@@ -26,6 +26,10 @@ class GoogleDriveService
 
     # Llamada para crear carpeta y me devuelve la carpeta creada
     @service.create_file(file_metadata, fields: 'id')
+  end
+
+  def delete_file(file_id)
+    @service.delete_file(file_id)
   end
 
   private
