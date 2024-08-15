@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get 'drive/files/:id/view', to: 'drive#show'
   post 'drive/folders', to: 'drive#create_folder'
   delete 'drive/folders/:id', to: 'drive#destroy'
+  post 'drive/upload', to: 'drive#upload'
 end
