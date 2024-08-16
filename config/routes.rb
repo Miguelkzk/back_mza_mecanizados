@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   post 'drive/folders', to: 'drive#create_folder'
   delete 'drive/folders/:id', to: 'drive#destroy'
   post 'drive/upload', to: 'drive#upload'
+
+  resources :clients
 end
