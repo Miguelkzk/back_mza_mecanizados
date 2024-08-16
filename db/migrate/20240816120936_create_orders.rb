@@ -12,6 +12,8 @@ class CreateOrders < ActiveRecord::Migration[7.1]
       t.integer :state
 
       t.string :drive_id
+
+      t.belongs_to :client
       t.timestamps
     end
   end
