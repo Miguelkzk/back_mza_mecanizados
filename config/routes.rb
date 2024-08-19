@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 
   resources :clients
   resources :orders
+  post 'drawings/upload', to: 'drawings#upload'
 end

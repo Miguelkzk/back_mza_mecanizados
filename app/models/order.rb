@@ -18,10 +18,18 @@ class Order < ApplicationRecord
   ############################################################################################
   # CALLBACKS
   ############################################################################################
-
+  after_create :create_folder
   ############################################################################################
   # INSTANCE METHODS
   ############################################################################################
+
+  def create_folder
+    drive_service = GoogleDriveService.new
+    folder_name = self.name
+    parent_id = '1ucIa7E9E3eG7ldf5ckqKZoVXTHf0qZcq'
+    folder = drive_service.create_folder(folder_name, parent_id)
+    self.update(drive_id: folder.id)
+  end
 
   ############################################################################################
   # CLASS METHODS

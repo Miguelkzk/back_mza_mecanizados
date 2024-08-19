@@ -35,6 +35,14 @@ class OrdersController < ApplicationController
     end
   end
 
+  def create_folder
+    drive_service = GoogleDriveService.new
+    folder_name = params[:name]
+    parent_id = '1ucIa7E9E3eG7ldf5ckqKZoVXTHf0qZcq'
+    folder = drive_service.create_folder(folder_name, parent_id)
+    render json: { id: folder.id, name: folder_name }, status: :created
+  end
+
   private
 
   def set_order
