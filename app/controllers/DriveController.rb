@@ -46,7 +46,6 @@ class DriveController < ApplicationController
     end
   end
 
-
   def drive_service
     @drive_service = GoogleDriveService.new
   end

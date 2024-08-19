@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   post 'drive/upload', to: 'drive#upload'
 
   resources :clients
+  resources :orders
 end
