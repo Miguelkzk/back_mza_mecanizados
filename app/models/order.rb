@@ -1,6 +1,8 @@
 class Order < ApplicationRecord
-  #ENUMS
-  enum state: { pending: 0, sent: 1, finished: 2 }
+  # ENUMS
+  enum state: { without_material: 0, with_material_but_not_started: 1, in_progress: 2,
+                not_invoiced: 3, delivered_and_invoiced: 4 }
+
   # ASSOCIATIONS
   belongs_to :client
   has_many :drawings
