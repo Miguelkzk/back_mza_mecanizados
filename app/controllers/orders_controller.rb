@@ -2,11 +2,21 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[show update destroy]
 
   def index
-    render json: Order.all
+    orders = Order.includes(:client).all
+
+    render json: orders.map { |order|
+      {
+        id: order.id,
+        purchase_order: order.purchase_order,
+        client: order.client.name,
+        name: order.name,
+        state: order.state
+      }
+    }
   end
 
   def show
-    render json: @order
+    render json: @order.as_json.merge(client: @order.client.name, drawings: @order.drawings)
   end
 
   def create
