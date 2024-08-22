@@ -1,7 +1,8 @@
 class Order < ApplicationRecord
   # ENUMS
   enum state: { without_material: 0, with_material_but_not_started: 1, in_progress: 2,
-                not_invoiced: 3, delivered_and_invoiced: 4 }
+                not_invoiced: 3, delivered_and_invoiced: 4, incomplete: 5 }
+  enum currency: { ars: 0, usd: 1 }
 
   # ASSOCIATIONS
   belongs_to :client

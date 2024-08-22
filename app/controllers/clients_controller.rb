@@ -35,6 +35,16 @@ class ClientsController < ApplicationController
     end
   end
 
+  def find_by_name
+    client = Client.find_by(name: params[:name])
+
+    if client.present?
+      render json: client
+    else
+      render status: :not_found
+    end
+  end
+
   private
 
   def client_params

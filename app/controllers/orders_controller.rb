@@ -45,13 +45,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  def create_folder
-    drive_service = GoogleDriveService.new
-    folder_name = params[:name]
-    parent_id = '1ucIa7E9E3eG7ldf5ckqKZoVXTHf0qZcq'
-    folder = drive_service.create_folder(folder_name, parent_id)
-    render json: { id: folder.id, name: folder_name }, status: :created
-  end
 
   private
 
@@ -64,6 +57,6 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(:name, :purchase_order, :quantity, :ingresed_at,
-                                  :delivery_at, :total_price, :unit_price, :comment, :state, :client_id)
+                                  :delivery_at, :unit_price, :comment, :state, :currency, :client_id)
   end
 end

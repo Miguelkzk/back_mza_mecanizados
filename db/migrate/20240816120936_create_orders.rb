@@ -6,10 +6,10 @@ class CreateOrders < ActiveRecord::Migration[7.1]
       t.integer :quantity
       t.datetime :ingresed_at
       t.datetime :delivery_at
-      t.float :total_price
       t.float :unit_price
       t.string :comment
       t.integer :state
+      t.integer :currency
 
       t.string :drive_id
 

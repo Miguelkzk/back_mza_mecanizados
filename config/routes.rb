@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   delete 'drive/folders/:id', to: 'drive#destroy'
   post 'drive/upload', to: 'drive#upload'
 
-  resources :clients
+  resources :clients do
+    collection do
+      get :find_by_name
+    end
+  end
   resources :orders
   post 'drawings/upload', to: 'drawings#upload'
 end
