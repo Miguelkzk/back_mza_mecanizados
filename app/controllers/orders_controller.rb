@@ -16,7 +16,12 @@ class OrdersController < ApplicationController
   end
 
   def show
-    render json: @order.as_json.merge(client: @order.client.name, drawings: @order.drawings)
+    total_price = @order.unit_price * @order.quantity
+    render json: @order.as_json.merge(
+      client: @order.client.name,
+      drawings: @order.drawings,
+      total_price: total_price
+    )
   end
 
   def create

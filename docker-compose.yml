@@ -34,3 +34,6 @@ volumes:
 
 networks:
   postgres_network:
+
+
+# Comando para reiniciar contenedor y hacer el drop de la db
