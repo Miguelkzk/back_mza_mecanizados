@@ -17,7 +17,13 @@ class Order < ApplicationRecord
   # SCOPES
   ############################################################################################
 
-  scope :status, ->(state) { where(state: state) }
+  scope :status, ->(state = nil) { state.present? ? where(state: state) : all }
+
+  scope :by_purchase_order, ->(purchase_order) { where('purchase_order LIKE ?', "%#{purchase_order}%") if purchase_order.present? }
+
+  scope :by_client_name, ->(client_name) { joins(:client).where('clients.name ILIKE ?',"%#{client_name}%") if client_name.present? }
+
+  scope :by_name, ->(name) { where('name ILIKE ?', "%#{name}%") if name.present? }
 
   ############################################################################################
   # CALLBACKS

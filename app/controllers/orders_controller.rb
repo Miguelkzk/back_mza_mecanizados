@@ -2,7 +2,13 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[show update destroy]
 
   def index
-    orders = Order.includes(:client).all
+    state = params[:state]
+    purchase_order = params[:purchase_order]
+    client_name = params[:client_name]
+    name = params[:name]
+
+    orders = Order.status(state).by_purchase_order(purchase_order).by_client_name(client_name)
+                  .by_name(name).includes(:client).all
 
     render json: orders.map { |order|
       {
@@ -50,10 +56,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  def filter_by_state
-    render json: Order.status(params[:state])
-  end
-
   private
 
   def set_order
@@ -65,6 +67,6 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(:name, :purchase_order, :quantity, :ingresed_at,
-                                  :delivery_at, :unit_price, :comment, :state, :currency, :client_id)
+                                  :delivery_at, :unit_price, :comment, :state, :currency, :client_id, :client_name)
   end
 end
