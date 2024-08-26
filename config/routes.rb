@@ -12,6 +12,10 @@ Rails.application.routes.draw do
       get :find_by_name
     end
   end
-  resources :orders
-  post 'drawings/upload', to: 'drawings#upload'
+
+  resources :orders do
+    collection do
+      get 'filter_by_state'
+    end
+  end
 end

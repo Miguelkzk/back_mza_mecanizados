@@ -50,6 +50,9 @@ class OrdersController < ApplicationController
     end
   end
 
+  def filter_by_state
+    render json: Order.status(params[:state])
+  end
 
   private
 

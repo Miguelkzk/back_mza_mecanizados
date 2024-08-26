@@ -17,12 +17,7 @@ class Order < ApplicationRecord
   # SCOPES
   ############################################################################################
 
-  scope :without_material, -> { where(state: :without_material) }
-  scope :with_material_but_not_started, -> { where(state: :with_material_but_not_started) }
-  scope :in_progress, -> { where(state: :in_progress) }
-  scope :not_invoiced, -> { where(state: :not_invoiced) }
-  scope :delivered_and_invoiced, -> { where(state: :delivered_and_invoiced) }
-  scope :incomplete, -> { where(state: :incomplete) }
+  scope :status, ->(state) { where(state: state) }
 
   ############################################################################################
   # CALLBACKS
