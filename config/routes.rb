@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :clients do
     collection do
       get :find_by_name
+      get :filter_by_name_and_status
     end
   end
 
