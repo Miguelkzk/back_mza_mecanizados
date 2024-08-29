@@ -2,6 +2,7 @@ class DrawingsController < ApplicationController
   before_action :set_drive_service
 
   def upload
+    Rails.logger.debug params.inspect
     file = params[:file]
     folder_id = params[:parent_id]
     order_id = params[:order_id]
@@ -14,7 +15,7 @@ class DrawingsController < ApplicationController
         if drawing.save
           render json: drawing, status: :created
         else
-          render json: drawing.error.details, status: :unprocessable_entity
+          render json: drawing.errors.full_messages, status: :unprocessable_entity
         end
 
       rescue Google::Apis::ClientError => e
@@ -27,6 +28,10 @@ class DrawingsController < ApplicationController
   end
 
   private
+
+  def drawings_params
+    params.require(:drawings).permit(:file, :parent_id, :order_id)
+  end
 
   def set_drive_service
     @drive_service = GoogleDriveService.new

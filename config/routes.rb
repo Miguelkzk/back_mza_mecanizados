@@ -14,6 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :drawings do
+    collection do
+      post :upload
+    end
+  end
+
   resources :orders do
     collection do
       get 'filter_by_state'
