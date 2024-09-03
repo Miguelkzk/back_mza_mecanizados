@@ -25,4 +25,6 @@ Rails.application.routes.draw do
       get 'filter_by_state'
     end
   end
+
+  resources :suppliers
 end
