@@ -27,4 +27,5 @@ Rails.application.routes.draw do
   end
 
   resources :suppliers
+  resources :materials
 end

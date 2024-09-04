@@ -23,9 +23,17 @@ class OrdersController < ApplicationController
 
   def show
     total_price = @order.unit_price * @order.quantity
+    materials = @order.materials
+
+    materials_with_supplier = materials.map do |material|
+      material.as_json.merge(supplier_name: material.supplier.name)
+    end
+
     render json: @order.as_json.merge(
       client: @order.client.name,
       drawings: @order.drawings,
+      materials: materials_with_supplier,
+
       total_price: total_price
     )
   end
