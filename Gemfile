@@ -50,3 +50,8 @@ gem 'googleauth', '~> 0.16'
 
 gem 'amazing_print'
 gem 'rack-cors', require: 'rack/cors'
+
+# gemas para generar excel
+gem 'axlsx'
+gem 'axlsx_rails'
+gem 'axlsx_styler', '~> 1.2'

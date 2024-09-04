@@ -51,6 +51,81 @@ class Order < ApplicationRecord
     self.update(drive_id: folder.id)
   end
 
+  require 'axlsx'
+  require 'axlsx_styler'
+
+  def generate_work_order
+    package = Axlsx::Package.new
+    workbook = package.workbook
+
+    # Definir estilos
+    header_style = workbook.styles.add_style(
+      sz: 12, # Tamaño de fuente
+      b: true, # Negrita
+      alignment: { horizontal: :left, vertical: :center }
+    )
+
+    centered_style = workbook.styles.add_style(
+      alignment: { horizontal: :center, vertical: :center }
+    )
+
+    # Crear una hoja de cálculo
+    workbook.add_worksheet(name: 'Orden de trabajo') do |sheet|
+      # LOGO Y TITULO
+      # Aquí puedes agregar código para el logo si lo necesitas
+      # sheet.add_image(image_src: Rails.root.join('public/logo.jpg').to_s, noSelect: true, noMove: true) do |image|
+      #   image.start_at 0, 0
+      #   image.end_at 1, 5
+      # end
+      # sheet.merge_cells('A1:F1')
+      # sheet.add_row ['Mendoza Mecanizados S.R.L.'], style: title_style, height: 30
+
+      # ENCABEZADO
+      sheet.add_row ['', '', '', 'Orden de trabajo', id], style: header_style
+      sheet.add_row ['', '', '', 'Cliente', client.name], style: header_style
+      sheet.add_row ['', '', '', 'Fecha de entrega', delivery_at.strftime('%d/%m/%Y')], style: header_style
+      sheet.add_row ['', '', '', 'Cantidad a fabricar', quantity], style: header_style
+
+      # DESCRIPCIÓN
+      sheet.add_row ['Descripción', name], style: centered_style
+      sheet.merge_cells 'B5:E5'
+
+
+      # MATERIALES
+      sheet.add_row ['Recepción de Materiales'], style: header_style
+      sheet.merge_cells 'A6:E6'
+
+      sheet.add_row ['Material', 'Proveedor', 'Cantidad', 'Fecha Ing.', 'RTO Prov'], style: header_style
+
+      materials.each do |material|
+        sheet.add_row [material.description, material.supplier.name, material.quantity,
+                       "IMPLEMENTAR", material.supplier_note]
+      end
+      sheet.add_row []
+      sheet.add_row ['Detalle de tareas:'], style: header_style
+
+      # PROCESO PRODUCTIVO
+      sheet.add_row ['Proceso Productivo'], style: header_style
+      sheet.add_row ['Procedimiento', 'Maquina/as', 'Operario/os', 'Firma'], style: header_style
+      sheet.add_row []
+
+      # CONTROL DIMENSIONAL
+      sheet.add_row ['Control Dimensional'], style: header_style
+      sheet.add_row ['PROCEDIMIENTO'], style: header_style
+      sheet.add_row ['instrumentos'], style: header_style
+      sheet.add_row ['Inspector', 'Fecha de inspección', 'Firma', 'Nro de informe'], style: header_style
+      sheet.add_row ['Kruzliak Pablo', '', '', '']
+    end
+
+    # Guardar en un archivo temporal
+    temp_file = Tempfile.new(['order', '.xlsx'])
+    package.serialize(temp_file.path)
+
+    temp_file
+  end
+
+
+
   ############################################################################################
   # CLASS METHODS
   ############################################################################################
