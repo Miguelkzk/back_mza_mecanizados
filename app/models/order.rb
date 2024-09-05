@@ -1,4 +1,6 @@
 class Order < ApplicationRecord
+  require 'caxlsx'
+
   ############################################################################################
   # ENUMS
   ############################################################################################
@@ -51,70 +53,114 @@ class Order < ApplicationRecord
     self.update(drive_id: folder.id)
   end
 
-  require 'axlsx'
-  require 'axlsx_styler'
-
   def generate_work_order
     package = Axlsx::Package.new
     workbook = package.workbook
 
-    # Definir estilos
+    # estilos
     header_style = workbook.styles.add_style(
-      sz: 12, # Tamaño de fuente
-      b: true, # Negrita
-      alignment: { horizontal: :left, vertical: :center }
+      sz: 12, # font size
+      alignment: { horizontal: :left, vertical: :center },
+      border: { style: :thin, color: '000000' }
     )
 
     centered_style = workbook.styles.add_style(
-      alignment: { horizontal: :center, vertical: :center }
+      alignment: { horizontal: :center, vertical: :center },
+      border: { style: :thin, color: '000000' }
     )
 
-    # Crear una hoja de cálculo
+    centered_b_style = workbook.styles.add_style(
+      sz: 12,
+      b: true, # negrita
+      alignment: { horizontal: :center, vertical: :center },
+      border: { style: :thin, color: '000000' }
+    )
+
+    centered_b_style_with_wrap = workbook.styles.add_style(
+      sz: 12,
+      b: true, # Negrita
+      alignment: { horizontal: :center, vertical: :center, wrap_text: true },
+      border: { style: :thin, color: '000000' }
+    )
+
+    # Genera un excel
     workbook.add_worksheet(name: 'Orden de trabajo') do |sheet|
-      # LOGO Y TITULO
-      # Aquí puedes agregar código para el logo si lo necesitas
-      # sheet.add_image(image_src: Rails.root.join('public/logo.jpg').to_s, noSelect: true, noMove: true) do |image|
-      #   image.start_at 0, 0
-      #   image.end_at 1, 5
-      # end
-      # sheet.merge_cells('A1:F1')
-      # sheet.add_row ['Mendoza Mecanizados S.R.L.'], style: title_style, height: 30
+      # LOGO
+      sheet.merge_cells('A1:B4')
+      sheet.add_image(image_src: 'public/logo MM.png', noSelect: true, noMove: true) do |image|
+        image.start_at 0, 0 # Inicia en la celda A1
+        image.width = 454 # Ajusta el ancho de la imagen
+        image.height = 94 # Ajusta el alto de la imagen
+      end
 
       # ENCABEZADO
-      sheet.add_row ['', '', '', 'Orden de trabajo', id], style: header_style
-      sheet.add_row ['', '', '', 'Cliente', client.name], style: header_style
-      sheet.add_row ['', '', '', 'Fecha de entrega', delivery_at.strftime('%d/%m/%Y')], style: header_style
-      sheet.add_row ['', '', '', 'Cantidad a fabricar', quantity], style: header_style
+      sheet.add_row ['', '', 'Orden de trabajo', id], style: centered_b_style
+      sheet.add_row ['', '', 'Cliente', client.name], style: centered_b_style
+      sheet.add_row ['', '', 'Fecha de entrega', delivery_at.strftime('%d/%m/%Y')], style: centered_b_style
+      sheet.add_row ['', '', 'Cantidad a fabricar', quantity], style: centered_style
 
       # DESCRIPCIÓN
-      sheet.add_row ['Descripción', name], style: centered_style
-      sheet.merge_cells 'B5:E5'
-
+      sheet.add_row ['DESCRIPCIÓN', name, '', ''], style: centered_b_style
+      sheet.merge_cells 'B5:D5' # Combinar celdas
+      sheet.add_row ['PLANO', "Implementar", 'OC', purchase_order], style: centered_b_style
 
       # MATERIALES
-      sheet.add_row ['Recepción de Materiales'], style: header_style
-      sheet.merge_cells 'A6:E6'
+      sheet.add_row ['RECEPCIÓN DE MATERIALES', '', '', ''], style: centered_b_style
+      sheet.add_row ['', '', '', ''], style: centered_b_style
+      sheet.merge_cells 'A7:D8' # Combinar celdas
 
-      sheet.add_row ['Material', 'Proveedor', 'Cantidad', 'Fecha Ing.', 'RTO Prov'], style: header_style
 
+      material_start_row = 9
+      material_end_row = material_start_row + materials.count + 1
+
+      # Combinar celdas dinámicamente
+
+      sheet.add_row ['Material', 'Proveedor', 'Fecha Ing.', 'RTO Prov'], style: centered_b_style
       materials.each do |material|
-        sheet.add_row [material.description, material.supplier.name, material.quantity,
-                       "IMPLEMENTAR", material.supplier_note]
+        sheet.add_row [material.description, material.supplier.name, "IMPLEMENTAR", material.supplier_note], style: centered_style
       end
-      sheet.add_row []
-      sheet.add_row ['Detalle de tareas:'], style: header_style
+
+      # TAREAS
+      sheet.add_row ['Detalle de tareas:', '', '', ''], style: header_style
+      sheet.add_row ['', '', '', ''], style: header_style
+      sheet.add_row ['', '', '', ''], style: header_style
+      sheet.merge_cells "A#{material_end_row}:D#{material_end_row + 2}"
 
       # PROCESO PRODUCTIVO
-      sheet.add_row ['Proceso Productivo'], style: header_style
-      sheet.add_row ['Procedimiento', 'Maquina/as', 'Operario/os', 'Firma'], style: header_style
-      sheet.add_row []
+      sheet.add_row ['PROCESO PRODUCTIVO', '', '', ''], style: centered_b_style
+      sheet.add_row ['', '', '', ''], style: centered_style
+      sheet.merge_cells "A#{material_end_row + 3}:D#{material_end_row + 4}"
+      sheet.add_row ['Procedimiento', 'Maquina/as', 'Operario/os', 'Firma'], style: centered_b_style
+      sheet.add_row ['', '', '', ''], style: centered_style
+      sheet.add_row ['', '', '', ''], style: centered_style
+      sheet.add_row ['', '', '', ''], style: centered_style
+      sheet.add_row ['', '', '', ''], style: centered_style
+      sheet.add_row ['', '', '', ''], style: centered_style
 
       # CONTROL DIMENSIONAL
-      sheet.add_row ['Control Dimensional'], style: header_style
-      sheet.add_row ['PROCEDIMIENTO'], style: header_style
-      sheet.add_row ['instrumentos'], style: header_style
+      sheet.add_row ['CONTROL DIMENSIONAL', '', '', ''], style: centered_b_style
+      sheet.add_row ['', '', '', ''], style: centered_style
+      sheet.merge_cells "A#{material_end_row + 11}:D#{material_end_row + 12}"
+      # sheet.add_row ['PROCEDIMIENTO', '', '', ''], style: centered_b_style
+      # sheet.merge_cells "A#{material_end_row + 9}:B#{material_end_row + 9}"
+      # sheet.merge_cells "C#{material_end_row + 9}:D#{material_end_row + 9}"
+      # sheet.add_row ['INSTRUMENTOS UTILIZADOS  (TIPO, MARCA Y CODIGO INTERNO)', '', '', ''], style: centered_b_style_with_wrap
+      # sheet.add_row ['', '', '', ''], style: centered_style
+      # sheet.add_row ['', '', '', ''], style: centered_style
+      # sheet.add_row ['', '', '', ''], style: centered_style
+      # sheet.add_row ['', '', '', ''], style: centered_style
+      # sheet.add_row ['', '', '', ''], style: centered_style
+      # sheet.merge_cells "A#{material_end_row + 10}:B#{material_end_row + 15}"
+
+      # PIE DE PAGINA
       sheet.add_row ['Inspector', 'Fecha de inspección', 'Firma', 'Nro de informe'], style: header_style
-      sheet.add_row ['Kruzliak Pablo', '', '', '']
+      sheet.add_row ['Kruzliak Pablo', '', '', ''], style: centered_style
+
+      # Establecer anchos de columnas
+      sheet.column_info[0].width = 28 # Columna A
+      sheet.column_info[1].width = 28 # Columna B
+      sheet.column_info[2].width = 28 # Columna C
+      sheet.column_info[3].width = 28 # Columna D
     end
 
     # Guardar en un archivo temporal
@@ -123,8 +169,6 @@ class Order < ApplicationRecord
 
     temp_file
   end
-
-
 
   ############################################################################################
   # CLASS METHODS
