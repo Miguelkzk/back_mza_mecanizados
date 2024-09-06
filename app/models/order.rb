@@ -18,6 +18,7 @@ class Order < ApplicationRecord
   has_many :drawings
   has_many :materials
   has_many :suppliers, through: :materials
+  has_one :work_order
 
   ############################################################################################
   # VALIDATIONS
@@ -90,7 +91,7 @@ class Order < ApplicationRecord
       sheet.merge_cells('A1:B4')
       sheet.add_image(image_src: 'public/logo MM.png', noSelect: true, noMove: true) do |image|
         image.start_at 0, 0
-        image.width = 454 # ancho de la imagen
+        image.width = 440 # ancho de la imagen
         image.height = 94 # alto de la imagen
       end
 
@@ -187,7 +188,13 @@ class Order < ApplicationRecord
     temp_file = Tempfile.new(['order', '.xlsx'])
     package.serialize(temp_file.path)
 
-    temp_file
+    work_order = WorkOrder.new(order: self)
+    work_order_name = "Orden de trabajo: #{id}"
+    work_order.upload_work_order(work_order_name, temp_file.path, drive_id)
+
+    # Eliminar el archivo temporal
+    temp_file.close
+    temp_file.unlink
   end
 
   ############################################################################################

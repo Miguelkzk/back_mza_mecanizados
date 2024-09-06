@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get :filter_by_state
     end
     member do
-      get :generate_work_order
+      post :generate_work_order
     end
   end
 

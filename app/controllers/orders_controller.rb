@@ -33,13 +33,18 @@ class OrdersController < ApplicationController
       client: @order.client.name,
       drawings: @order.drawings,
       materials: materials_with_supplier,
+      work_order: @order.work_order,
 
       total_price: total_price
     )
   end
 
   def generate_work_order
-    render json: @order.generate_work_order
+    if @order.generate_work_order
+      render json: { message: 'Work order generated successfully.' }, status: :ok
+    else
+      render json: { error: 'Failed to generate work order.' }, status: :unprocessable_entity
+    end
   end
 
   def create
