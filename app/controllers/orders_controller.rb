@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show update destroy]
+  before_action :set_order, only: %i[show update destroy generate_work_order]
 
   def index
     state = params[:state]
@@ -36,6 +36,10 @@ class OrdersController < ApplicationController
 
       total_price: total_price
     )
+  end
+
+  def generate_work_order
+    render json: @order.generate_work_order
   end
 
   def create

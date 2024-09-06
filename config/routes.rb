@@ -22,7 +22,10 @@ Rails.application.routes.draw do
 
   resources :orders do
     collection do
-      get 'filter_by_state'
+      get :filter_by_state
+    end
+    member do
+      get :generate_work_order
     end
   end
 
