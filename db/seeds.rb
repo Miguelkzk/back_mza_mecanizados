@@ -34,56 +34,56 @@ order5 = Order.new(name: 'Compresor de aire 250hp', purchase_order: '2233445',
 order5.client = client5
 order5.save
 
-order6 = Order.new(name: 'Transformador de potencia 10MVA', purchase_order: '3344556',
-                   quantity: 2, ingresed_at: '1/12/2024', delivery_at: '25/4/2025', unit_price: 6875,
-                   state: 'incomplete', currency: 'usd')
-order6.client = client1
-order6.save
+# order6 = Order.new(name: 'Transformador de potencia 10MVA', purchase_order: '3344556',
+#                    quantity: 2, ingresed_at: '1/12/2024', delivery_at: '25/4/2025', unit_price: 6875,
+#                    state: 'incomplete', currency: 'usd')
+# order6.client = client1
+# order6.save
 
-order7 = Order.new(name: 'Válvula de alivio de presión 1500psi', purchase_order: '4455667',
-                   quantity: 15, ingresed_at: '15/1/2025', delivery_at: '10/5/2025', unit_price: 1290,
-                   state: 'without_material', currency: 'ars')
-order7.client = client2
-order7.save
+# order7 = Order.new(name: 'Válvula de alivio de presión 1500psi', purchase_order: '4455667',
+#                    quantity: 15, ingresed_at: '15/1/2025', delivery_at: '10/5/2025', unit_price: 1290,
+#                    state: 'without_material', currency: 'ars')
+# order7.client = client2
+# order7.save
 
-order8 = Order.new(name: 'Motor eléctrico trifásico 75hp', purchase_order: '5566778',
-                   quantity: 4, ingresed_at: '20/2/2025', delivery_at: '30/6/2025', unit_price: 3200,
-                   state: 'in_progress', currency: 'usd')
-order8.client = client3
-order8.save
+# order8 = Order.new(name: 'Motor eléctrico trifásico 75hp', purchase_order: '5566778',
+#                    quantity: 4, ingresed_at: '20/2/2025', delivery_at: '30/6/2025', unit_price: 3200,
+#                    state: 'in_progress', currency: 'usd')
+# order8.client = client3
+# order8.save
 
-order9 = Order.new(name: 'Intercambiador de calor placas y juntas', purchase_order: '6677889',
-                   quantity: 10, ingresed_at: '25/3/2025', delivery_at: '15/7/2025', unit_price: 4750,
-                   state: 'with_material_but_not_started', currency: 'ars')
-order9.client = client4
-order9.save
+# order9 = Order.new(name: 'Intercambiador de calor placas y juntas', purchase_order: '6677889',
+#                    quantity: 10, ingresed_at: '25/3/2025', delivery_at: '15/7/2025', unit_price: 4750,
+#                    state: 'with_material_but_not_started', currency: 'ars')
+# order9.client = client4
+# order9.save
 
-order10 = Order.new(name: 'Tanque de almacenamiento de 50m³', purchase_order: '7788990',
-                    quantity: 1, ingresed_at: '30/4/2025', delivery_at: '10/8/2025', unit_price: 15000,
-                    state: 'not_invoiced', currency: 'usd')
-order10.client = client5
-order10.save
+# order10 = Order.new(name: 'Tanque de almacenamiento de 50m³', purchase_order: '7788990',
+#                     quantity: 1, ingresed_at: '30/4/2025', delivery_at: '10/8/2025', unit_price: 15000,
+#                     state: 'not_invoiced', currency: 'usd')
+# order10.client = client5
+# order10.save
 
-order11 = Order.new(name: 'Plataforma metálica para planta', purchase_order: '8899001',
-                    quantity: 3, ingresed_at: '5/5/2025', delivery_at: '25/9/2025', unit_price: 6000,
-                    state: 'delivered_and_invoiced', currency: 'ars')
-order11.client = client1
-order11.save
+# order11 = Order.new(name: 'Plataforma metálica para planta', purchase_order: '8899001',
+#                     quantity: 3, ingresed_at: '5/5/2025', delivery_at: '25/9/2025', unit_price: 6000,
+#                     state: 'delivered_and_invoiced', currency: 'ars')
+# order11.client = client1
+# order11.save
 
-order12 = Order.new(name: 'Chiller de 300 toneladas de refrigeración', purchase_order: '9900112',
-                    quantity: 2, ingresed_at: '10/6/2025', delivery_at: '5/10/2025', unit_price: 24500,
-                    state: 'incomplete', currency: 'usd')
-order12.client = client2
-order12.save
+# order12 = Order.new(name: 'Chiller de 300 toneladas de refrigeración', purchase_order: '9900112',
+#                     quantity: 2, ingresed_at: '10/6/2025', delivery_at: '5/10/2025', unit_price: 24500,
+#                     state: 'incomplete', currency: 'usd')
+# order12.client = client2
+# order12.save
 
-order13 = Order.new(name: 'Sistema de control de flujo para proceso químico', purchase_order: '10111223',
-                    quantity: 7, ingresed_at: '15/7/2025', delivery_at: '20/11/2025', unit_price: 7800,
-                    state: 'without_material', currency: 'ars')
-order13.client = client3
-order13.save
+# order13 = Order.new(name: 'Sistema de control de flujo para proceso químico', purchase_order: '10111223',
+#                     quantity: 7, ingresed_at: '15/7/2025', delivery_at: '20/11/2025', unit_price: 7800,
+#                     state: 'without_material', currency: 'ars')
+# order13.client = client3
+# order13.save
 
-order14 = Order.new(name: 'Bombas centrífugas de 10hp', purchase_order: '12131425',
-                    quantity: 6, ingresed_at: '20/8/2025', delivery_at: '15/12/2025', unit_price: 3500,
-                    state: 'in_progress', currency: 'usd')
-order14.client = client4
-order14.save
+# order14 = Order.new(name: 'Bombas centrífugas de 10hp', purchase_order: '12131425',
+#                     quantity: 6, ingresed_at: '20/8/2025', delivery_at: '15/12/2025', unit_price: 3500,
+#                     state: 'in_progress', currency: 'usd')
+# order14.client = client4
+# order14.save

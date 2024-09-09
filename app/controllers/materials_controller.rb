@@ -13,7 +13,7 @@ class MaterialsController < ApplicationController
 
   def materails_params
     params.require(:material).permit(:description, :quantity,
-                                     :supplier_note, :supplier_id,
+                                     :supplier_note, :ingresed_at, :supplier_id,
                                      :order_id)
   end
 end

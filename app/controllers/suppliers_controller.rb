@@ -2,7 +2,8 @@ class SuppliersController < ApplicationController
   before_action :set_supplier, only: %i[show update destroy]
 
   def index
-    render json: Supplier.all
+    name = params[:name]
+    render json: Supplier.by_name(name).all
   end
 
   def show
