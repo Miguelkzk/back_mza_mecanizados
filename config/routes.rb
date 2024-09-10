@@ -37,4 +37,10 @@ Rails.application.routes.draw do
       post :upload
     end
   end
+
+  resources :supplier_delivery_notes do
+    collection do
+      post :upload
+    end
+  end
 end
