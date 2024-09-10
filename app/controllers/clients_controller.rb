@@ -2,7 +2,8 @@ class ClientsController < ApplicationController
   before_action :set_client, only: %i[show update destroy]
 
   def index
-    render json: Client.all
+    name = params[:name]
+    render json: Client.by_name(name).all
   end
 
   def show

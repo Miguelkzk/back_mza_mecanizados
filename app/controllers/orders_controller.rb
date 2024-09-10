@@ -26,7 +26,10 @@ class OrdersController < ApplicationController
     materials = @order.materials
 
     materials_with_supplier = materials.map do |material|
-      material.as_json.merge(supplier_name: material.supplier.name)
+      material.as_json.merge(
+        supplier_name: material.supplier.name,
+        ingresed_at: material.ingresed_at.strftime('%d/%m/%Y')
+      )
     end
 
     render json: @order.as_json.merge(
