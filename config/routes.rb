@@ -31,4 +31,10 @@ Rails.application.routes.draw do
 
   resources :suppliers
   resources :materials
+
+  resources :certificate_of_materials do
+    collection do
+      post :upload
+    end
+  end
 end

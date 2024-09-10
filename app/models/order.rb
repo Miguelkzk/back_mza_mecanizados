@@ -19,6 +19,7 @@ class Order < ApplicationRecord
   has_many :materials
   has_many :suppliers, through: :materials
   has_one :work_order
+  has_many :certificate_of_materials
 
   ############################################################################################
   # VALIDATIONS

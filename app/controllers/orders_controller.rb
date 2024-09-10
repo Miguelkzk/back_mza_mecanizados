@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
       drawings: @order.drawings,
       materials: materials_with_supplier,
       work_order: @order.work_order,
-
+      certificate_of_materials: @order.certificate_of_materials,
       total_price: total_price
     )
   end
