@@ -21,6 +21,7 @@ class Order < ApplicationRecord
   has_one :work_order
   has_many :certificate_of_materials
   has_many :supplier_delivery_notes
+  has_many :delivery_notes
 
   ############################################################################################
   # VALIDATIONS
@@ -121,7 +122,7 @@ class Order < ApplicationRecord
 
       sheet.add_row ['Material', 'Proveedor', 'Fecha Ing.', 'RTO Prov'], style: centered_style_with_color
       materials.each do |material|
-        sheet.add_row [material.description, material.supplier.name, "IMPLEMENTAR", material.supplier_note], style: centered_style
+        sheet.add_row [material.description, material.supplier.name, material.ingresed_at, material.supplier_note], style: centered_style
       end
 
       # TAREAS

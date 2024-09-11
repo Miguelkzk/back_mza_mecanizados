@@ -39,6 +39,7 @@ class OrdersController < ApplicationController
       work_order: @order.work_order,
       certificate_of_materials: @order.certificate_of_materials,
       supplier_delivery_notes: @order.supplier_delivery_notes,
+      delivery_notes: @order.delivery_notes,
       total_price: total_price
     )
   end
