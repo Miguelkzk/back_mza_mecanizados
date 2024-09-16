@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[show update destroy generate_work_order]
+  before_action :set_order, only: %i[show update destroy generate_work_order materials_in_order]
 
   def index
     state = params[:state]
@@ -42,6 +42,18 @@ class OrdersController < ApplicationController
       delivery_notes: @order.delivery_notes,
       total_price: total_price
     )
+  end
+
+  def materials_in_order
+    materials = @order.materials
+
+    materials_with_supplier = materials.map do |material|
+      material.as_json.merge(
+        supplier_name: material.supplier.name,
+        ingresed_at: material.ingresed_at.strftime('%d/%m/%Y')
+      )
+    end
+    render json: materials_with_supplier
   end
 
   def generate_work_order
@@ -88,7 +100,7 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    params.require(:order).permit(:name, :purchase_order, :quantity, :ingresed_at,
+    params.require(:order).permit(:name, :purchase_order, :quantity, :ingresed_at, :estimated_delivery_date,
                                   :delivery_at, :unit_price, :comment, :state, :currency, :client_id, :client_name)
   end
 end

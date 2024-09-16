@@ -122,7 +122,7 @@ class Order < ApplicationRecord
 
       sheet.add_row ['Material', 'Proveedor', 'Fecha Ing.', 'RTO Prov'], style: centered_style_with_color
       materials.each do |material|
-        sheet.add_row [material.description, material.supplier.name, material.ingresed_at, material.supplier_note], style: centered_style
+        sheet.add_row [material.description, material.supplier.name, material.ingresed_at.strftime('%d/%m/%Y'), material.supplier_note], style: centered_style
       end
 
       # TAREAS

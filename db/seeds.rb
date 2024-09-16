@@ -5,31 +5,31 @@ client4 = Client.create(name: 'Ternium')
 client5 = Client.create(name: 'Arcor')
 
 order1 = Order.new(name: 'Valvula check HPC 15kpsi P/Servicio de PH', purchase_order: '1231231',
-                   quantity: 12, ingresed_at: '12/7/2024', delivery_at: '25/12/2024', unit_price: 1231,
+                   quantity: 12, ingresed_at: '12/7/2024', estimated_delivery_date: '25/12/2024', unit_price: 1231,
                    state: 'without_material', currency: 'ars')
 order1.client = client1
 order1.save
 
 order2 = Order.new(name: 'Tubería de alta presión 10kpsi', purchase_order: '4564564',
-                   quantity: 20, ingresed_at: '15/8/2024', delivery_at: '30/12/2024', unit_price: 1560,
+                   quantity: 20, ingresed_at: '15/8/2024', estimated_delivery_date: '30/12/2024', unit_price: 1560,
                    state: 'in_progress', currency: 'usd')
 order2.client = client2
 order2.save
 
 order3 = Order.new(name: 'Bomba de vacío tipo anillo líquido', purchase_order: '7897897',
-                   quantity: 5, ingresed_at: '18/9/2024', delivery_at: '10/1/2025', unit_price: 2375,
+                   quantity: 5, ingresed_at: '18/9/2024', estimated_delivery_date: '10/1/2025', unit_price: 2375,
                    state: 'with_material_but_not_started', currency: 'ars')
 order3.client = client3
 order3.save
 
 order4 = Order.new(name: 'Generador de vapor 500kg/h', purchase_order: '1122334',
-                   quantity: 3, ingresed_at: '20/10/2024', delivery_at: '15/2/2025', unit_price: 3250,
+                   quantity: 3, ingresed_at: '20/10/2024', estimated_delivery_date: '15/2/2025', unit_price: 3250,
                    state: 'not_invoiced', currency: 'usd')
 order4.client = client4
 order4.save
 
 order5 = Order.new(name: 'Compresor de aire 250hp', purchase_order: '2233445',
-                   quantity: 8, ingresed_at: '5/11/2024', delivery_at: '20/3/2025', unit_price: 4520,
+                   quantity: 8, ingresed_at: '5/11/2024', estimated_delivery_date: '20/3/2025', unit_price: 4520,
                    state: 'delivered_and_invoiced', currency: 'ars')
 order5.client = client5
 order5.save

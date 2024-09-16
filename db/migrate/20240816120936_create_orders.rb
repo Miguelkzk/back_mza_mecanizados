@@ -5,6 +5,7 @@ class CreateOrders < ActiveRecord::Migration[7.1]
       t.string :purchase_order
       t.integer :quantity
       t.datetime :ingresed_at
+      t.datetime :estimated_delivery_date
       t.datetime :delivery_at
       t.float :unit_price
       t.string :comment

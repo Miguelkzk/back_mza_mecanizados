@@ -8,10 +8,6 @@ Rails.application.routes.draw do
   post 'drive/upload', to: 'drive#upload'
 
   resources :clients do
-    collection do
-      get :find_by_name
-      get :filter_by_name_and_status
-    end
   end
 
   resources :drawings do
@@ -26,6 +22,7 @@ Rails.application.routes.draw do
     end
     member do
       post :generate_work_order
+      get :materials_in_order
     end
   end
 

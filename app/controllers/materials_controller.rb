@@ -1,5 +1,5 @@
 class MaterialsController < ApplicationController
-  before_action :set_material, only: %i[destroy]
+  before_action :set_material, only: %i[destroy update]
   def create
     material = Material.new(materails_params)
 
@@ -12,6 +12,14 @@ class MaterialsController < ApplicationController
 
   def destroy
     if @material.destroy
+      render json: @material
+    else
+      render json: material.error.details, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @material.update(materails_params)
       render json: @material
     else
       render json: material.error.details, status: :unprocessable_entity
