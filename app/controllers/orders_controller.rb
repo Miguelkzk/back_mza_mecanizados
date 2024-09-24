@@ -7,17 +7,28 @@ class OrdersController < ApplicationController
     client_name = params[:client_name]
     name = params[:name]
 
-    orders = Order.status(state).by_purchase_order(purchase_order).by_client_name(client_name)
-                  .by_name(name).includes(:client).all
+    orders = Order.status(state)
+                  .by_purchase_order(purchase_order)
+                  .by_client_name(client_name)
+                  .by_name(name).includes(:client)
+                  .order(created_at: :desc)
+                  .page(params[:page])
+                  .per(25) # elementos por pag
 
-    render json: orders.map { |order|
-      {
-        id: order.id,
-        purchase_order: order.purchase_order,
-        client: order.client.name,
-        name: order.name,
-        state: order.state
-      }
+    render json: {
+      orders: orders.map { |order|
+        {
+          id: order.id,
+          purchase_order: order.purchase_order,
+          client: order.client.name,
+          name: order.name,
+          state: order.state
+        }
+      },
+      total_pages: orders.total_pages, # Devuelve información de la paginación
+      current_page: orders.current_page,
+      next_page: orders.next_page,
+      prev_page: orders.prev_page
     }
   end
 

@@ -51,5 +51,7 @@ gem 'googleauth', '~> 0.16'
 gem 'amazing_print'
 gem 'rack-cors', require: 'rack/cors'
 
-# gemas para generar excel
+# gema para generar excel
 gem 'caxlsx_rails'
+# gema para la paginacion
+gem 'kaminari'
