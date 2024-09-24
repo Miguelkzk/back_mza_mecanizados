@@ -101,7 +101,7 @@ class Order < ApplicationRecord
       # ENCABEZADO
       sheet.add_row ['', '', 'Orden de trabajo', id], style: centered_b_style
       sheet.add_row ['', '', 'Cliente', client.name], style: centered_b_style
-      sheet.add_row ['', '', 'Fecha de entrega', delivery_at.strftime('%d/%m/%Y')], style: centered_b_style
+      sheet.add_row ['', '', 'Fecha de entrega', estimated_delivery_date.strftime('%d/%m/%Y')], style: centered_b_style
       sheet.add_row ['', '', 'Cantidad a fabricar', quantity], style: centered_style
 
       # DESCRIPCIÓN
@@ -147,38 +147,25 @@ class Order < ApplicationRecord
       sheet.add_row ['CONTROL DIMENSIONAL', '', '', ''], style: centered_b_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.merge_cells "A#{material_end_row + 12}:D#{material_end_row + 13}"
-      sheet.add_row ['PROCEDIMIENTO', '', '', ''], style: [centered_style_with_color,
-                                                           centered_style, centered_style, centered_style]
-      sheet.add_row ['', '', '', ''], style: centered_style
-      sheet.merge_cells "A#{material_end_row + 14}:B#{material_end_row + 15}"
-      sheet.merge_cells "C#{material_end_row + 14}:D#{material_end_row + 15}"
-      sheet.add_row ['INSTRUMENTOS UTILIZADOS  (TIPO, MARCA Y CÓDIGO INTERNO)',
-                     '', '', ''], style: [centered_style_with_color, centered_style, centered_style, centered_style]
+      sheet.add_row ['Instrumento', 'Nro de certificado', 'Procedimiento', 'Inspector'], style: centered_style_with_color
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
-      sheet.merge_cells "A#{material_end_row + 16}:B#{material_end_row + 22}"
-      sheet.merge_cells "C#{material_end_row + 16}:D#{material_end_row + 16}"
-      sheet.merge_cells "C#{material_end_row + 17}:D#{material_end_row + 17}"
-      sheet.merge_cells "C#{material_end_row + 18}:D#{material_end_row + 18}"
-      sheet.merge_cells "C#{material_end_row + 19}:D#{material_end_row + 19}"
-      sheet.merge_cells "C#{material_end_row + 20}:D#{material_end_row + 20}"
-      sheet.merge_cells "C#{material_end_row + 21}:D#{material_end_row + 21}"
-      sheet.merge_cells "C#{material_end_row + 22}:D#{material_end_row + 22}"
+
 
       # PIE DE PAGINA
-      sheet.add_row ['Inspector', 'Fecha de inspección', 'Firma', 'Nro de informe'], style: centered_style_with_color
-      sheet.add_row ['Kruzliak Pablo', '', '', ''], style: centered_style
+      sheet.add_row ['Nro de informe', 'Fecha de inspección', 'Aprobó OT', 'Firma'], style: centered_style_with_color
+      sheet.add_row ['', '', 'Kruzliak Pablo', ''], style: centered_style
       sheet.add_row ['Descripción:', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
-      sheet.merge_cells "A#{material_end_row + 25}:D#{material_end_row + 30}"
+      sheet.merge_cells "A#{material_end_row + 23}:D#{material_end_row + 28}"
 
       # Establecer anchos de columnas
       sheet.column_info[0].width = 28 # Columna A
