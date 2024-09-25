@@ -51,15 +51,17 @@ class Order < ApplicationRecord
 
   def create_folder
     drive_service = GoogleDriveService.new
-    folder_name = self.name
+    folder_name = name
     parent_id = '1ucIa7E9E3eG7ldf5ckqKZoVXTHf0qZcq'
     folder = drive_service.create_folder(folder_name, parent_id)
-    self.update(drive_id: folder.id)
+    update(drive_id: folder.id)
   end
 
   def generate_work_order
     package = Axlsx::Package.new
     workbook = package.workbook
+
+    work_order&.destroy
 
     # estilos
     header_style = workbook.styles.add_style(

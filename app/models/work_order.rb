@@ -17,6 +17,7 @@ class WorkOrder < ApplicationRecord
   # CALLBACKS
   ############################################################################################
   after_create :set_drive_url
+  before_destroy :delete_file_from_drive
 
   ############################################################################################
   # INSTANCE METHODS
@@ -33,12 +34,15 @@ class WorkOrder < ApplicationRecord
   end
 
   def set_drive_url
-     url = "https://drive.google.com/file/d/#{drive_id}/view"
+    url = "https://drive.google.com/file/d/#{drive_id}/view"
     update(view_url: url)
   end
 
+  def delete_file_from_drive
+    @drive_service = GoogleDriveService.new
+    @drive_service.delete_file(drive_id)
+  end
   ############################################################################################
   # CLASS METHODS
   ############################################################################################
-
 end
