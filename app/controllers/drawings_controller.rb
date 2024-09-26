@@ -1,29 +1,16 @@
 class DrawingsController < ApplicationController
-  before_action :set_drive_service
+  include FileUploadable
 
+  before_action :set_drawing, only: %i[destroy]
   def upload
-    Rails.logger.debug params.inspect
-    file = params[:file]
-    folder_id = params[:parent_id]
-    order_id = params[:order_id]
+    upload_file(Drawing, params[:order_id])
+  end
 
-    if file.present?
-      begin
-        uploaded_file = @drive_service.upload_file(file.original_filename, file.tempfile.path, folder_id)
-        drawing = Drawing.new(name: uploaded_file.name, drive_id: uploaded_file.id, order_id: order_id)
-
-        if drawing.save
-          render json: drawing, status: :created
-        else
-          render json: drawing.errors.full_messages, status: :unprocessable_entity
-        end
-
-      rescue Google::Apis::ClientError => e
-        render json: { error: e.message }, status: :unprocessable_entity
-      end
-
+  def destroy
+    if @drawing.destroy
+      render json: @drawing
     else
-      render json: { error: 'No file uploaded' }, status: :bad_request
+      render json: drawing.error.details, status: :unprocessable_entity
     end
   end
 
@@ -33,7 +20,10 @@ class DrawingsController < ApplicationController
     params.require(:drawings).permit(:file, :parent_id, :order_id)
   end
 
-  def set_drive_service
-    @drive_service = GoogleDriveService.new
+  def set_drawing
+    @drawing = Drawing.find_by(id: params[:id])
+    return if @drawing.present?
+
+    render status: :not_found
   end
 end

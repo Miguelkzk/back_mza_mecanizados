@@ -1,27 +1,17 @@
 class DeliveryNotesController < ApplicationController
-  before_action :set_drive_service
+  include FileUploadable
+
+  before_action :set_delivery_note, only: %i[destroy]
 
   def upload
-    file = params[:file]
-    folder_id = params[:parent_id]
-    order_id = params[:order_id]
+    upload_file(DeliveryNote, params[:order_id])
+  end
 
-    if file.present?
-      begin
-        uploaded_file = @drive_service.upload_file(file.original_filename, file.tempfile.path, folder_id)
-        delivery_note = DeliveryNote.new(name: uploaded_file.name,
-                                         drive_id: uploaded_file.id, order_id: order_id)
-        if delivery_note.save
-          render json: delivery_note, status: :created
-        else
-          render json: delivery_note.errors.full_messages, status: :unprocessable_entity
-        end
-      rescue Google::Apis::ClientError => e
-        render json: { error: e.message }, status: :unprocessable_entity
-      end
-
+  def destroy
+    if @delivery_note.destroy
+      render status: :ok
     else
-      render json: { error: 'No file uploaded' }, status: :bad_request
+      render status: :unprocessable_entity
     end
   end
 
@@ -31,7 +21,10 @@ class DeliveryNotesController < ApplicationController
     params.require(:delivery_note).permit(:file, :parent_id, :order_id)
   end
 
-  def set_drive_service
-    @drive_service = GoogleDriveService.new
+  def set_delivery_note
+    @delivery_note = DeliveryNote.find_by(id: params[:id])
+    return if @delivery_note.present?
+
+    render status: :not_found
   end
 end
