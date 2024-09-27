@@ -1,8 +1,16 @@
 class CertificateOfMaterialsController < ApplicationController
   include FileUploadable
-
+  before_action :set_certificate_of_material, only: %i[destroy]
   def upload
     upload_file(CertificateOfMaterial, params[:order_id])
+  end
+
+  def destroy
+    if @certificate_of_material.destroy
+      render state: :ok
+    else
+      render state: :unprocessable_entity
+    end
   end
 
   private
@@ -11,4 +19,10 @@ class CertificateOfMaterialsController < ApplicationController
     params.require(:certificate_of_materials).permit(:file, :parent_id, :order_id)
   end
 
+  def set_certificate_of_material
+    @certificate_of_material = CertificateOfMaterial.find_by(id: params[:id])
+    return if @certificate_of_material.present?
+
+    render state: :not_found
+  end
 end
