@@ -55,3 +55,9 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'caxlsx_rails'
 # gema para la paginacion
 gem 'kaminari'
+
+# gemas para la autenticacion
+gem 'devise'
+gem 'devise-jwt'
+gem 'jsonapi-serializer'
+gem 'pundit'

@@ -1,6 +1,5 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[show update destroy generate_work_order materials_in_order]
-
   def index
     state = params[:state]
     purchase_order = params[:purchase_order]

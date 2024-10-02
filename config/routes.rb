@@ -1,5 +1,14 @@
 # config/routes.rb
 Rails.application.routes.draw do
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
   # drive routes
   get 'drive/files', to: 'drive#index'
   get 'drive/files/:id/view', to: 'drive#show'
@@ -46,4 +55,9 @@ Rails.application.routes.draw do
       post :upload
     end
   end
+
+  post 'signup', to: 'users#create' # Ruta para crear usuarios
+  post 'login', to: 'auth#login'
+  get 'auto_login', to: 'auth#auto_login'
+  post 'login', to: 'auth#login'
 end

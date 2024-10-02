@@ -1,7 +1,8 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: %i[show update destroy]
-
+  before_action :authenticate_user!
   def index
+    authorize Client
     name = params[:name]
     render json: Client.by_name(name).all
   end
