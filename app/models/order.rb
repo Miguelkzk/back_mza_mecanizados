@@ -27,6 +27,11 @@ class Order < ApplicationRecord
   # VALIDATIONS
   ############################################################################################
 
+  validates :name, :purchase_order, :quantity, :unit_price, :comment,
+            :currency, :ingresed_at, :estimated_delivery_date, presence: true
+
+  validates :estimated_delivery_date, comparison: { greater_than: :ingresed_at }
+
   ############################################################################################
   # SCOPES
   ############################################################################################

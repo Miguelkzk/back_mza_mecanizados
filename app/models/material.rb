@@ -10,6 +10,8 @@ class Material < ApplicationRecord
   # VALIDATIONS
   ############################################################################################
 
+  validates :description, :quantity, :supplier_note, :ingresed_at, presence: true
+  validates :quantity, numericality: { greater_than: 0 }
   ############################################################################################
   # SCOPES
   ############################################################################################
