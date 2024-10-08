@@ -1,6 +1,9 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[show update destroy generate_work_order materials_in_order]
+  before_action :authenticate_user!
+
   def index
+    authorize Order
     state = params[:state]
     purchase_order = params[:purchase_order]
     client_name = params[:client_name]
@@ -24,7 +27,7 @@ class OrdersController < ApplicationController
           state: order.state
         }
       },
-      total_pages: orders.total_pages, # Devuelve información de la paginación
+      total_pages: orders.total_pages, # Devuelve información de la pag
       current_page: orders.current_page,
       next_page: orders.next_page,
       prev_page: orders.prev_page
@@ -32,6 +35,8 @@ class OrdersController < ApplicationController
   end
 
   def show
+    authorize @order
+
     total_price = @order.unit_price * @order.quantity
     materials = @order.materials
 
@@ -55,6 +60,7 @@ class OrdersController < ApplicationController
   end
 
   def materials_in_order
+    authorize @order
     materials = @order.materials
 
     materials_with_supplier = materials.map do |material|
@@ -67,6 +73,7 @@ class OrdersController < ApplicationController
   end
 
   def generate_work_order
+    authorize @order
     if @order.generate_work_order
       render json: { message: 'Work order generated successfully.' }, status: :ok
     else
@@ -75,6 +82,7 @@ class OrdersController < ApplicationController
   end
 
   def create
+    authorize @order
     order = Order.new(order_params)
 
     if order.save
@@ -85,6 +93,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+    authorize @order
     if @order.update(order_params)
       render json: @order
     else
@@ -93,6 +102,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
+    authorize @order
     if @order.destroy
       render json: @order
     else

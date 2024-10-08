@@ -8,10 +8,12 @@ class ClientsController < ApplicationController
   end
 
   def show
+    authorize @client
     render json: @client
   end
 
   def create
+    authorize Client
     client = Client.new(client_params)
 
     if client.save
@@ -22,6 +24,7 @@ class ClientsController < ApplicationController
   end
 
   def update
+    authorize @client
     if @client.update(client_params)
       render json: @client
     else
@@ -30,6 +33,7 @@ class ClientsController < ApplicationController
   end
 
   def destroy
+    authorize @client
     if @client.destroy
       render json: @client
     else

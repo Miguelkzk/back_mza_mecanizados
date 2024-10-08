@@ -1,12 +1,15 @@
 class SupplierDeliveryNotesController < ApplicationController
   include FileUploadable
   before_action :set_supplier_delivery_note, only: %i[destroy]
+  before_action :authenticate_user!
 
   def upload
+    authorize SupplierDeliveryNote
     upload_file(SupplierDeliveryNote, params[:order_id])
   end
 
   def destroy
+    authorize @supplier_delivery_note
     if @supplier_delivery_note.destroy
       render json: @supplier_delivery_note
     else

@@ -1,6 +1,8 @@
 class MaterialsController < ApplicationController
   before_action :set_material, only: %i[destroy update]
+  before_action :authenticate_user!
   def create
+    authorize Material
     material = Material.new(materails_params)
 
     if material.save
@@ -11,6 +13,7 @@ class MaterialsController < ApplicationController
   end
 
   def destroy
+    authorize @material
     if @material.destroy
       render json: @material
     else
@@ -19,6 +22,7 @@ class MaterialsController < ApplicationController
   end
 
   def update
+    authorize @material
     if @material.update(materails_params)
       render json: @material
     else

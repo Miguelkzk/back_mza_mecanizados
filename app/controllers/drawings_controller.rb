@@ -1,12 +1,14 @@
 class DrawingsController < ApplicationController
   include FileUploadable
-
   before_action :set_drawing, only: %i[destroy]
+  before_action :authenticate_user!
   def upload
+    authorize Drawing
     upload_file(Drawing, params[:order_id])
   end
 
   def destroy
+    authorize @drawing
     if @drawing.destroy
       render json: @drawing
     else

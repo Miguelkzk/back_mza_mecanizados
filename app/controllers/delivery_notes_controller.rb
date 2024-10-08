@@ -2,12 +2,14 @@ class DeliveryNotesController < ApplicationController
   include FileUploadable
 
   before_action :set_delivery_note, only: %i[destroy]
-
+  before_action :authenticate_user!
   def upload
+    authorize DeliveryNote
     upload_file(DeliveryNote, params[:order_id])
   end
 
   def destroy
+    authorize @delivery_note
     if @delivery_note.destroy
       render status: :ok
     else

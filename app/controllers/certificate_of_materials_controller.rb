@@ -1,11 +1,14 @@
 class CertificateOfMaterialsController < ApplicationController
   include FileUploadable
   before_action :set_certificate_of_material, only: %i[destroy]
+  before_action :authenticate_user!
   def upload
+    authorize CertificateOfMaterial
     upload_file(CertificateOfMaterial, params[:order_id])
   end
 
   def destroy
+    authorize @certificate_of_material
     if @certificate_of_material.destroy
       render state: :ok
     else

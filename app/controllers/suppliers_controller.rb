@@ -1,16 +1,20 @@
 class SuppliersController < ApplicationController
   before_action :set_supplier, only: %i[show update destroy]
+  before_action :authenticate_user!
 
   def index
+    authorize Supplier
     name = params[:name]
     render json: Supplier.by_name(name).all
   end
 
   def show
+    authorize @supplier
     render json: @supplier
   end
 
   def create
+    authorize @supplier
     supplier = Supplier.new(supplier_params)
 
     if supplier.save
@@ -21,6 +25,7 @@ class SuppliersController < ApplicationController
   end
 
   def update
+    authorize @supplier
     if @supplier.update(supplier_params)
       render json: @supplier
     else
@@ -29,6 +34,7 @@ class SuppliersController < ApplicationController
   end
 
   def destroy
+    authorize @supplier
     if @supplier.destroy
       render json: @supplier
     else

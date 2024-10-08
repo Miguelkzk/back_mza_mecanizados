@@ -6,4 +6,12 @@ class User < ApplicationRecord
 
   enum role: { viewer: 0, admin: 1 }
   validates :role, presence: true
+
+  def admin?
+    role == 'admin'
+  end
+
+  def viewer?
+    role == 'viewer'
+  end
 end
