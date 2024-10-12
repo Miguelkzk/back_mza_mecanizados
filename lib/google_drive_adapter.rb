@@ -12,4 +12,8 @@ module GoogleDriveAdapter
   def create_file(title, parent_id = ROOT_PARENT_ID)
     client.create_file(title, parents: [parent_id])
   end
+
+  def create_folder(title, parent_id = ROOT_PARENT_ID)
+    client.create_collection(title, parents: [parent_id])
+  end
 end
