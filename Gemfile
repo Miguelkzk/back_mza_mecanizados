@@ -43,10 +43,14 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  # gem "sqlite3", "~> 1.4"
+  gem 'byebug'
 end
 
 gem 'google-apis-drive_v3', '~> 0.16'
 gem 'googleauth', '~> 0.16'
+
+gem 'google_drive', '~> 3.0', '>= 3.0.7'
 
 gem 'amazing_print'
 gem 'rack-cors', require: 'rack/cors'
