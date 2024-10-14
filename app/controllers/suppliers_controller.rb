@@ -14,7 +14,7 @@ class SuppliersController < ApplicationController
   end
 
   def create
-    authorize @supplier
+    authorize Supplier
     supplier = Supplier.new(supplier_params)
 
     if supplier.save

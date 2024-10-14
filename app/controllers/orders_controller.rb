@@ -82,7 +82,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    authorize @order
+    authorize Order
     order = Order.new(order_params)
 
     if order.save

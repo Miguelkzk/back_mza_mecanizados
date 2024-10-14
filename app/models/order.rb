@@ -27,7 +27,7 @@ class Order < ApplicationRecord
   # VALIDATIONS
   ############################################################################################
 
-  validates :name, :purchase_order, :quantity, :unit_price, :comment,
+  validates :name, :purchase_order, :quantity, :unit_price,
             :currency, :ingresed_at, :estimated_delivery_date, presence: true
 
   validates :estimated_delivery_date, comparison: { greater_than: :ingresed_at }
@@ -197,4 +197,7 @@ class Order < ApplicationRecord
   ############################################################################################
   # CLASS METHODS
   ############################################################################################
+  # def self.ransackable_attributes(auth_object = nil)
+  #   ['name']
+  # end
 end
