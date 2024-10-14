@@ -36,3 +36,4 @@
 /.byebug_history
 /.vscode/
 /config/credentials/credentials.json
+/config/credentials/development.key
