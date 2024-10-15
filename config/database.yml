@@ -16,6 +16,11 @@ test:
 
 production:
   <<: *default
-  database: myapi_production
-  username: myapi
-  password: <%= ENV['MYAPI_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['PGDATABASE'] %>
+  username: <%= ENV['PGUSER'] %>
+  password: <%= ENV['PGPASSWORD'] %>
+  host: <%= ENV['PGHOST'] %>
+  port: <%= ENV['PGPORT'] %>

@@ -4,7 +4,6 @@ require 'googleauth/stores/file_token_store'
 
 class GoogleDriveService
   APPLICATION_NAME = 'back_mza_mecanizados'.freeze
-  CREDENTIALS_PATH = 'config/credentials/credentials.json'.freeze
   SCOPE = Google::Apis::DriveV3::AUTH_DRIVE
 
   def initialize
@@ -56,11 +55,10 @@ class GoogleDriveService
   private
 
   def authorize
-    authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: File.open(CREDENTIALS_PATH),
+    google_drive_credentials = JSON.parse(ENV['GOOGLE_DRIVE_CREDENTIALS'])
+    Google::Auth::ServiceAccountCredentials.make_creds(
+      json_key_io: StringIO.new(google_drive_credentials.to_json),
       scope: SCOPE
     )
-    authorizer.fetch_access_token!
-    authorizer
   end
 end
