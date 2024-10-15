@@ -24,3 +24,4 @@ production:
   password: <%= ENV['PGPASSWORD'] %>
   host: <%= ENV['PGHOST'] %>
   port: <%= ENV['PGPORT'] %>
+  url: <%= ENV['DATABASE_URL'] %>
