@@ -64,3 +64,5 @@ gem 'jsonapi-serializer'
 gem 'pundit'
 
 gem 'ransack', '~> 4.2', '>= 4.2.1'
+gem 'dotenv-rails', groups: [:development, :test, :production]
+
