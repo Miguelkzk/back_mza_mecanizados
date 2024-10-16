@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def create
-    authorize User
+    # authorize User
     super
   end
 
