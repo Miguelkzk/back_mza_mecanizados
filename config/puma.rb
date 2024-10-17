@@ -7,6 +7,17 @@
 # Any libraries that use thread pools should be configured to match
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
+
+before_fork do
+  PumaWorkerKiller.config do |config|
+    config.ram           = 1024 # MB
+    config.frequency     = 5    # seconds
+    config.percent_usage = 0.98
+  end
+
+  File.exist?(Rails.root.join('tmp/pids/server.pid')) && File.delete(Rails.root.join('tmp/pids/server.pid'))
+end
+
 max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
 threads min_threads_count, max_threads_count

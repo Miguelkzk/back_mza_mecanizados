@@ -1,9 +1,11 @@
 require 'google/apis/drive_v3'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
-
+require 'json'
+require 'stringio'
 class GoogleDriveService
   APPLICATION_NAME = 'back_mza_mecanizados'.freeze
+  GOGLE_DRIVE_CRENDENTIALS = JSON.parse(ENV['CREDENTIALS_DRIVE'])
   SCOPE = Google::Apis::DriveV3::AUTH_DRIVE
 
   def initialize
@@ -55,10 +57,12 @@ class GoogleDriveService
   private
 
   def authorize
-    google_drive_credentials = JSON.parse(ENV['GOOGLE_DRIVE_CREDENTIALS'])
-    Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: StringIO.new(google_drive_credentials.to_json),
+    json_key_io = StringIO.new(GOGLE_DRIVE_CRENDENTIALS.to_json) # uso stringio para convertir el hash en un archivo
+    authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
+      json_key_io: json_key_io,
       scope: SCOPE
     )
+    authorizer.fetch_access_token!
+    authorizer
   end
 end
