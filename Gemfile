@@ -66,3 +66,4 @@ gem 'pundit'
 
 gem 'ransack', '~> 4.2', '>= 4.2.1'
 
+gem 'puma_worker_killer'
