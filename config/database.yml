@@ -18,6 +18,7 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+  pool: 10
   database: <%= ENV['PROD_PGDATABASE'] || 'railway' %> # Nombre de la base de datos en Railway
   host: <%= ENV['RAILWAY_PRIVATE_DOMAIN'] || 'autorack.proxy.rlwy.net' %> # Usar el dominio privado en producción
 
