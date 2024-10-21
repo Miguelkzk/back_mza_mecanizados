@@ -30,6 +30,7 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # the concurrency of the application will be `workers * max_threads`.
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
+
 if ENV["RAILS_ENV"] == "production"
   require "concurrent-ruby"
   worker_count = Integer(ENV.fetch("WEB_CONCURRENCY") { Concurrent.physical_processor_count })

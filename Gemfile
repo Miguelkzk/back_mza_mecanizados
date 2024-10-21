@@ -44,7 +44,6 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
    gem 'byebug', '~> 11.1', '>= 11.1.3'
-   gem 'dotenv-rails', groups: [:test, :production]
 end
 
 gem 'google-apis-drive_v3', '~> 0.16'
@@ -65,5 +64,6 @@ gem 'jsonapi-serializer'
 gem 'pundit'
 
 gem 'ransack', '~> 4.2', '>= 4.2.1'
+gem 'dotenv-rails', groups: [:development, :test, :production]
 
 gem 'puma_worker_killer'
