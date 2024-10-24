@@ -166,7 +166,7 @@ class Order < ApplicationRecord
       # PIE DE PAGINA
       sheet.add_row ['Nro de informe', 'Fecha de inspección', 'Aprobó OT', 'Firma'], style: centered_style_with_color
       sheet.add_row ['', '', 'Kruzliak Pablo', ''], style: centered_style
-      sheet.add_row ['Descripción:', '', '', ''], style: header_style
+      sheet.add_row ['Observaciones:', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
       sheet.add_row ['', '', '', ''], style: header_style
