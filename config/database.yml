@@ -2,13 +2,13 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV['PGUSER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  username: <%= ENV['DEV_DB_USERNAME'] %>
+  password: <%= ENV['DEV_DB_PASSWORD'] %>
 
 development:
   <<: *default
-  database: <%= ENV['DEV_PGDATABASE'] || 'mzaMeca' %>
-  host: <%= ENV['DEV_DB_HOST'] || 'localhost' %>
+  database: <%= ENV['DEV_PGDATABASE'] %>
+  host: <%= ENV['DEV_DB_HOST'] %>
 
 test:
   <<: *default
@@ -19,6 +19,5 @@ production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
   pool: 10
-  database: <%= ENV['PROD_PGDATABASE'] || 'railway' %> # Nombre de la base de datos en Railway
-  host: <%= ENV['RAILWAY_PRIVATE_DOMAIN'] || 'autorack.proxy.rlwy.net' %> # Usar el dominio privado en producción
-
+  database: <%= ENV['PROD_PGDATABASE'] || 'railway' %>
+  host: <%= ENV['RAILWAY_PRIVATE_DOMAIN'] || 'autorack.proxy.rlwy.net' %>

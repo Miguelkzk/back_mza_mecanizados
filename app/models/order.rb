@@ -127,9 +127,9 @@ class Order < ApplicationRecord
       material_start_row = 9
       material_end_row = material_start_row + materials.count + 1 # para celdas dinamicas
 
-      sheet.add_row ['Material', 'Proveedor', 'Fecha Ing.', 'RTO Prov'], style: centered_style_with_color
+      sheet.add_row ['Material', 'Proveedor', 'Cantidad', 'RTO Prov'], style: centered_style_with_color
       materials.each do |material|
-        sheet.add_row [material.description, material.supplier.name, material.ingresed_at.strftime('%d/%m/%Y'), material.supplier_note], style: centered_style
+        sheet.add_row [material.description, material.supplier.name, material.quantity, material.supplier_note], style: centered_style
       end
 
       # TAREAS
@@ -184,7 +184,6 @@ class Order < ApplicationRecord
     # Guardar en un archivo temporal
     temp_file = Tempfile.new(['order', '.xlsx'])
     package.serialize(temp_file.path)
-
     work_order = WorkOrder.new(order: self)
     work_order_name = "Orden de trabajo: #{id}"
     work_order.upload_work_order(work_order_name, temp_file.path, drive_id)
