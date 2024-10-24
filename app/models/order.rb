@@ -22,7 +22,7 @@ class Order < ApplicationRecord
   has_many :certificate_of_materials
   has_many :supplier_delivery_notes
   has_many :delivery_notes
-
+  has_many :file_purchase_orders
   ############################################################################################
   # VALIDATIONS
   ############################################################################################

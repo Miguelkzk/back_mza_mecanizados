@@ -51,6 +51,7 @@ class OrdersController < ApplicationController
       client: @order.client.name,
       drawings: @order.drawings,
       materials: materials_with_supplier,
+      file_purchase_orders: @order.file_purchase_orders,
       work_order: @order.work_order,
       certificate_of_materials: @order.certificate_of_materials,
       supplier_delivery_notes: @order.supplier_delivery_notes,

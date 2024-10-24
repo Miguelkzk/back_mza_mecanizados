@@ -56,7 +56,14 @@ Rails.application.routes.draw do
     end
   end
 
-  post 'signup', to: 'users#create' # Ruta para crear usuarios
+  resources :file_purchase_orders do
+    collection do
+      post :upload
+    end
+  end
+
+  # rutas para usuarios
+  post 'signup', to: 'users#create'
   post 'login', to: 'auth#login'
   get 'auto_login', to: 'auth#auto_login'
   post 'login', to: 'auth#login'
