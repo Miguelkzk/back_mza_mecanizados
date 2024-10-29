@@ -18,6 +18,6 @@ test:
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
-  pool: 10
+  pool: 2
   database: <%= ENV['PROD_PGDATABASE'] || 'railway' %>
   host: <%= ENV['RAILWAY_PRIVATE_DOMAIN'] || 'autorack.proxy.rlwy.net' %>
