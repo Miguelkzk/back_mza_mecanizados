@@ -1,4 +1,4 @@
-class RemunerationsPolicy < ApplicationPolicy
+class RemunerationPolicy < ApplicationPolicy
   def show_parents?
     user.admin?
   end
