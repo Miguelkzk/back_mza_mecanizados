@@ -9,6 +9,8 @@ development:
   <<: *default
   database: <%= ENV['DEV_PGDATABASE'] %>
   host: <%= ENV['DEV_DB_HOST'] %>
+  username: <%= ENV['DEV_DB_USERNAME'] %>
+  password: <%= ENV['DEV_DB_PASSWORD'] %>
 
 test:
   <<: *default

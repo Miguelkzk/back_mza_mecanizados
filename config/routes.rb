@@ -62,6 +62,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :remunerations do
+    collection do
+      get :show_parents
+      post :create_remuneration_for_month
+    end
+    member do
+      get :show_childrens
+    end
+  end
+
   # rutas para usuarios
   post 'signup', to: 'users#create'
   post 'login', to: 'auth#login'

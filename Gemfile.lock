@@ -176,6 +176,8 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (~> 0.15)
+    groupdate (6.5.1)
+      activesupport (>= 7)
     htmlentities (4.3.4)
     httpclient (2.8.3)
     i18n (1.14.6)
@@ -356,6 +358,7 @@ DEPENDENCIES
   dotenv-rails
   google-apis-drive_v3 (~> 0.16)
   googleauth (~> 0.16)
+  groupdate
   jsonapi-serializer
   kaminari
   pg (>= 0.18, < 2.0)

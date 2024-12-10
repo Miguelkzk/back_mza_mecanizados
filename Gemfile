@@ -63,7 +63,12 @@ gem 'devise-jwt'
 gem 'jsonapi-serializer'
 gem 'pundit'
 
+# gema para buscar por filtros
 gem 'ransack', '~> 4.2', '>= 4.2.1'
 
 gem 'puma_worker_killer'
+# gema para cargar las variables de entorno
 gem 'dotenv-rails', groups: [:development, :test, :production]
+
+# gema para agrupar por fechas
+gem 'groupdate'

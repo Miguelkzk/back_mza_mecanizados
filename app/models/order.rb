@@ -40,7 +40,7 @@ class Order < ApplicationRecord
 
   scope :by_purchase_order, ->(purchase_order) { where('purchase_order LIKE ?', "%#{purchase_order}%") if purchase_order.present? }
 
-  scope :by_client_name, ->(client_name) { joins(:client).where('clients.name ILIKE ?',"%#{client_name}%") if client_name.present? }
+  scope :by_client_name, ->(client_name) { joins(:client).where('clients.name ILIKE ?', "%#{client_name}%") if client_name.present? }
 
   scope :by_name, ->(name) { where('name ILIKE ?', "%#{name}%") if name.present? }
 
@@ -193,10 +193,35 @@ class Order < ApplicationRecord
     temp_file.unlink
   end
 
+  def total_price
+    quantity * unit_price
+  end
+
   ############################################################################################
   # CLASS METHODS
   ############################################################################################
   # def self.ransackable_attributes(auth_object = nil)
   #   ['name']
   # end
+
+  def self.profit_of_month(month)
+    start_date = Date.parse("#{month}-01").beginning_of_month
+    end_date = start_date.end_of_month
+
+    # cambiar por la fecha de entrega real y agregar el estado
+    #  state: 'delivered_and_invoiced'
+    orders = Order.where(delivery_at: start_date..end_date, state: 'delivered_and_invoiced')
+
+    total_ars = 0
+    total_usd = 0
+
+    orders.each do |order|
+      if order.currency == 'ars'
+        total_ars += order.total_price
+      else
+        total_usd += order.total_price
+      end
+    end
+    { total_ars: total_ars, total_usd: total_usd }
+  end
 end
