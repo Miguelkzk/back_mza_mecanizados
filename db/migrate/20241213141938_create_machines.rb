@@ -8,6 +8,7 @@ class CreateMachines < ActiveRecord::Migration[7.1]
       t.string :routine_detail
       t.string :corrective_detail
       t.string :preventive_detail
+      t.string :drive_id
       t.timestamps
     end
   end

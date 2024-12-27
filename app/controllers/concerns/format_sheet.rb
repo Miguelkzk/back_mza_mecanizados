@@ -12,7 +12,8 @@ module FormatSheet
     sheet.add_row Array.new(4, '') + ['MANTENIMIENTO DE INFRAESTRUCTURA'] + Array.new(10, ''), style: @centered_b_style
     sheet.add_row []
     sheet.merge_cells('E1:O2')
-    sheet.add_row Array.new(4, '') + ['ORDEN DE MANTENIMIENTO'] + Array.new(7, '') + ['Nº ORDEN:', '', ''],
+    sheet.add_row Array.new(4, '') + ['ORDEN DE MANTENIMIENTO'] + Array.new(7, '') +
+                  ['Nº ORDEN:', '', "#{self.maintenances.where(type_maintenance: type).count + 1}"],
                   style: @centered_title
     sheet.merge_cells('E3:L4')
     sheet.merge_cells('M3:N4')
@@ -27,7 +28,7 @@ module FormatSheet
     sheet.merge_cells('B6:H6')
     sheet.merge_cells('K6:M6')
 
-    sheet.add_row ['', 'Pablo Kruzliak:'] + Array.new(8, '') + ["#{Date.new(year, month, 1)} "] + Array.new(4, ''), style:
+    sheet.add_row ['', 'Pablo Kruzliak'] + Array.new(8, '') + ["#{if year.present? && month.present? then Date.new(year, month, 1) end } "] + Array.new(4, ''), style:
       [@gray_bg_border_l] + Array.new(7, @centered_style) + Array.new(2, @gray_bg) +
       Array.new(3, @centered_style) + [@gray_bg, @gray_bg_border_r]
     sheet.merge_cells('B7:H7')
@@ -79,13 +80,13 @@ module FormatSheet
     sheet.merge_cells('G31:H31')
     sheet.merge_cells('J31:N31')
 
-    for i in (1..6)
+    6.times do |i|
       sheet.add_row Array.new(15, ''),
       style: [@gray_bg_border_l] + Array.new(4, @centered_style) +
       [@gray_bg, @centered_style, @centered_b_style, @gray_bg] + Array.new(5, @centered_style) + [@gray_bg_border_r]
-      sheet.merge_cells("B#{31 + i}:E#{31 + i}")
-      sheet.merge_cells("G#{31 + i}:H#{31 + i}")
-      sheet.merge_cells("J#{31 + i}:N#{31 + i}")
+      sheet.merge_cells("B#{32 + i}:E#{32 + i}")
+      sheet.merge_cells("G#{32 + i}:H#{32 + i}")
+      sheet.merge_cells("J#{32 + i}:N#{32 + i}")
     end
 
     sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
@@ -93,9 +94,9 @@ module FormatSheet
     sheet.add_row ['', 'OBSERVACIONES'] + Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
     sheet.merge_cells('B39:D39')
 
-    for i in (1..3)
+    3.times do |i|
       sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @centered_style) + [@gray_bg_border_r]
-      sheet.merge_cells("B#{39 + i}:N#{39 + i}")
+      sheet.merge_cells("B#{40 + i}:N#{40 + i}")
     end
 
     sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
@@ -105,7 +106,7 @@ module FormatSheet
     sheet.merge_cells('B44:H44')
     sheet.merge_cells('K44:N44')
 
-    sheet.add_row Array.new(10, '') + [Date.new(year, month, -1).to_s] + Array.new(4, ''), style:
+    sheet.add_row Array.new(10, '') + ["#{if year.present? && month.present? then Date.new(year, month, -1) end}"] + Array.new(4, ''), style:
     [@gray_bg_border_l] + Array.new(7, @centered_style) + [@gray_bg, @gray_bg] + Array.new(4, @centered_style) + [@gray_bg_border_r]
     sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(7, @centered_style) + Array.new(6, @gray_bg) + [@gray_bg_border_r]
     sheet.merge_cells('B45:H46')

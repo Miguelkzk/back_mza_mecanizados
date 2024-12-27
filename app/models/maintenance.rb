@@ -4,7 +4,7 @@ class Maintenance < ApplicationRecord
 
   ############################################################
   # ENUMS
-  enum type: { preventive: 0, corrective: 1, routine: 2 }
+  enum type_maintenance: { preventive: 0, corrective: 1, routine: 2 }
 
   ############################################################
   # VALIDATIONS
@@ -14,8 +14,13 @@ class Maintenance < ApplicationRecord
   ############################################################
   # CALLBACKS
   ############################################################
+  after_create :set_drive_url
   # INSTANCE METHODS
   ############################################################
+  def set_drive_url
+    url = "https://drive.google.com/file/d/#{drive_id}/view"
+    update(view_url: url)
+  end
   # CLASS METHODS
   ############################################################
 end

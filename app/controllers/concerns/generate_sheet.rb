@@ -9,8 +9,32 @@ module GenerateSheet
     # Implementar el método
   end
 
-  def sheet_corrective
-    # Implementar el método
+  def sheet_corrective(_month, _year)
+    package = Axlsx::Package.new
+    workbook = package.workbook
+    initialize_styles workbook
+
+    workbook.add_worksheet(name: 'Orden de mantenimiento') do |sheet|
+      header_sheet(sheet, 'corrective', _month, _year)
+      sheet.add_row Array.new(15,''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      sheet.add_row ['', 'TAREAS REALIZADAS'] + Array.new(13, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      sheet.merge_cells('B19:D19')
+      8.times do |i|
+        sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @centered_style) + [@gray_bg_border_r]
+        sheet.merge_cells("B#{20 + i}:N#{20 + i}")
+      end
+      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+
+      footer_sheet(sheet, _month, _year)
+
+      sheet.column_widths(*Array.new(15, 7))
+
+    end
+    temp_file = Tempfile.new(['maintenance', '.xlsx'])
+    package.serialize(temp_file.path)
+    temp_file
   end
 
   def sheet_routine(month, year)
@@ -26,7 +50,7 @@ module GenerateSheet
                     style: [@gray_bg_border_l] + Array.new(6, @b_centred) + Array.new(1, @gray_bg) + Array.new(6, @b_centred) + [@gray_bg_border_r]
       sheet.merge_cells('C18:G18')
       sheet.merge_cells('I18:N18')
-      sheet.add_row ['', 'L', 'M', 'X', 'J', 'V', 'S', 'D', '', routine_detail.to_s] + Array.new(7, ''),
+      sheet.add_row ['', 'L', 'M', 'X', 'J', 'V', 'S', 'D', routine_detail.to_s] + Array.new(7, ''),
                     style: [@gray_bg_border_l] + Array.new(7, @centered_style) + Array.new(6, @centered_style) + [@gray_bg_border_r]
 
       calendar = generate_calendar(month, year)
@@ -53,7 +77,6 @@ module GenerateSheet
 
     temp_file = Tempfile.new(['maintenance', '.xlsx'])
     package.serialize(temp_file.path)
-    temp_file.path
     temp_file
   end
 
