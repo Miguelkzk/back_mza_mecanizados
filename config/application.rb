@@ -35,8 +35,8 @@ module BackMzaMecanizados
           origins '*'  # Permite cualquier origen
           resource '*',
             headers: :any,
-            expose: ['Authorization'],
-            methods: [:get, :post, :put, :patch, :delete, :options, :head]
+            methods: [:get, :post, :put, :patch, :delete, :options, :head],
+            expose: ['Content-Disposition', 'Authorization']
         end
       end
 

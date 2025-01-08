@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     member do
       post :generate_routine_sheet
       post :generate_corrective_sheet
+      post :generate_preventive_sheet
       get :show_maintenances
     end
   end

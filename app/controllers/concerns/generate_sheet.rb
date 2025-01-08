@@ -5,8 +5,50 @@ module GenerateSheet
   include FormatSheet
   require 'caxlsx'
   require 'date'
+
   def sheet_preventive
-    # Implementar el método
+    package = Axlsx::Package.new
+    workbook = package.workbook
+    initialize_styles workbook
+    workbook.add_worksheet(name: 'Orden de mantenimiento') do |sheet|
+      header_sheet(sheet, 'preventive', nil, nil)
+      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      sheet.add_row ['', 'TAREAS REALIZADAS'] + Array.new(6, '') + ['INDICAR FRECUENCIA -->'] + Array.new(3, '') + ['TRIM', '', ''], style: [@gray_bg_border_l] + Array.new(11, @gray_bg) + [@centered_style, @centered_style] + [@gray_bg_border_r]
+      sheet.merge_cells('B19:D19')
+      sheet.merge_cells('I19:L19')
+      sheet.merge_cells('M19:N19')
+
+      6.times do |i|
+        if i == 2
+          sheet.add_row Array.new(12, '') + ['SEMESTRAL', '', ''], style: [@gray_bg_border_l] + Array.new(10, @centered_style) + [@gray_bg] + Array.new(2, @centered_style) + [@gray_bg_border_r]
+          next
+        elsif i == 5
+          sheet.add_row ['', 'MARCAR CON UN TILDE CUANDO SE REALICE LA RUTINA MANTENIMIENTO SEGÚN FRECUENCIA ESTABLECIDA. SI SE DETECTA UNA OBSERVACIÓN DETALLAR EN EL CAMPO DE "OBSERVACIONES".'] + Array.new(10, '') + ['ANUAL', '', ''], style: [@gray_bg_border_l] + Array.new(10, @gray_bg_border)+ [@gray_bg] + Array.new(2, @centered_style) + [@gray_bg_border_r]
+          2.times do |j|
+            sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(10, @gray_bg_border)+ [@gray_bg] + Array.new(2, @centered_style) + [@gray_bg_border_r]
+          end
+          next
+        end
+        sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(10, @centered_style) + [@gray_bg] + Array.new(2, @centered_style) + [@gray_bg_border_r]
+      end
+      sheet.merge_cells('B20:K24')
+      sheet.merge_cells('M20:N21')
+      sheet.merge_cells('M22:N22')
+      sheet.merge_cells('M23:N24')
+      sheet.merge_cells('B25:K27')
+      sheet.merge_cells('M25:N25')
+      sheet.merge_cells('M26:N27')
+      3.times do
+        sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      end
+
+      footer_sheet(sheet, nil, nil)
+
+      sheet.column_widths(*Array.new(15, 7))
+    end
+    temp_file = Tempfile.new(['maintenance', '.xlsx'])
+    package.serialize(temp_file.path)
+    temp_file
   end
 
   def sheet_corrective(_month, _year)
@@ -23,9 +65,10 @@ module GenerateSheet
         sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @centered_style) + [@gray_bg_border_r]
         sheet.merge_cells("B#{20 + i}:N#{20 + i}")
       end
-      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
-      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
-      sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+
+      3.times do
+        sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
+      end
 
       footer_sheet(sheet, _month, _year)
 
@@ -79,6 +122,7 @@ module GenerateSheet
     package.serialize(temp_file.path)
     temp_file
   end
+
 
   private
 

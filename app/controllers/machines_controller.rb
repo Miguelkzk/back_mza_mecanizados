@@ -1,5 +1,6 @@
 class MachinesController < ApplicationController
-  before_action :set_machine, only: %i[show update destroy generate_routine_sheet show_maintenances generate_corrective_sheet]
+  before_action :set_machine, only: %i[show update destroy generate_routine_sheet show_maintenances
+                                       generate_corrective_sheet generate_preventive_sheet]
   # before_action :authenticate_user!
   def index
     render json: Machine.all
@@ -53,7 +54,28 @@ class MachinesController < ApplicationController
       send_data(
         file_content,
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        filename: "Rutina_#{month}_#{year}_#{@machine.code}.xlsx"
+        filename: "Rutina_#{month}_#{year}_#{@machine.code}.xlsx",
+        disposition: 'attachment'
+
+      )
+    else
+      render json: { error: 'Archivo no encontrado' }, status: :internal_server_error
+    end
+  end
+
+  def generate_preventive_sheet
+    temp_file = @machine.sheet_preventive
+    if temp_file && File.exist?(temp_file.path)
+      file_content = File.read(temp_file.path)
+      temp_file.close
+      temp_file.unlink
+
+      send_data(
+        file_content,
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        filename: "Preventivo#{@machine.code}",
+        disposition: 'attachment'
+
       )
     else
       render json: { error: 'Archivo no encontrado' }, status: :internal_server_error
@@ -70,7 +92,8 @@ class MachinesController < ApplicationController
       send_data(
         file_content,
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        filename: "Correctivo#{@machine.code}.xlsx"
+        filename: "Correctivo#{@machine.code}.xlsx",
+        disposition: 'attachment'
       )
     else
       render json: { error: 'Archivo no encontrado' }, status: :internal_server_error

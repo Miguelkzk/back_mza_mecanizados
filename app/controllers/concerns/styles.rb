@@ -57,7 +57,7 @@ module Styles
       border: {
         style: :thin,
         color: '000000',
-        edges: [:left] # Bordes izquierdo y derecho
+        edges: [:left]
       },
       b: true,
       sz: 10,
@@ -82,7 +82,7 @@ module Styles
   def self.gray_bg_border(workbook)
     workbook.styles.add_style(
       bg_color: 'F2F2F2',
-      alignment: { horizontal: :left, vertical: :bottom, wrap_text: true },
+      alignment: { horizontal: :center, vertical: :center, wrap_text: true },
       sz: 8,
       border: [
         { style: :thin, color: '000000', edges: [:left] },

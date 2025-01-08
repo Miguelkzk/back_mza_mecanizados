@@ -66,8 +66,8 @@ module FormatSheet
     sheet.add_row ['', '', "#{if type == 'routine' then 'X' end}", '', '', '', '',
                    "#{if type == 'preventive' then 'X' end}", '', '', '', '',
                    "#{if type == 'corrective' then 'X' end}", '', '', ''], style:
-      [@gray_bg_border_l, @gray_bg, @centered_style] + Array.new(4, @gray_bg) + [@centered_b_style] + Array.new(4, @gray_bg) +
-      [@centered_b_style, @gray_bg, @gray_bg_border_r]
+      [@gray_bg_border_l, @gray_bg, @centered_style] + Array.new(4, @gray_bg) + [@centered_style] + Array.new(4, @gray_bg) +
+      [@centered_style, @gray_bg, @gray_bg_border_r]
     sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(13, @gray_bg) + [@gray_bg_border_r]
     sheet.merge_cells('A17:O17')
   end

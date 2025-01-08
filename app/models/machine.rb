@@ -28,13 +28,8 @@ class Machine < ApplicationRecord
 
   # CLASS METHODS
   ############################################################
-  def self.generate_sheet_routine
-    maquina = Machine.first
-    maquina.sheet_routine(12, 2022)
-  end
-
-  def self.calendar(month, year)
+  def self.metodo
     machine = Machine.first
-    machine.generate_calendar(month, year)
+    machine.sheet_preventive
   end
 end
