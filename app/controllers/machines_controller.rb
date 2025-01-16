@@ -56,7 +56,6 @@ class MachinesController < ApplicationController
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         filename: "Rutina_#{month}_#{year}_#{@machine.code}.xlsx",
         disposition: 'attachment'
-
       )
     else
       render json: { error: 'Archivo no encontrado' }, status: :internal_server_error
@@ -64,7 +63,8 @@ class MachinesController < ApplicationController
   end
 
   def generate_preventive_sheet
-    temp_file = @machine.sheet_preventive
+    frecuency = params[:frecuency]
+    temp_file = @machine.sheet_preventive(frecuency)
     if temp_file && File.exist?(temp_file.path)
       file_content = File.read(temp_file.path)
       temp_file.close
@@ -75,7 +75,6 @@ class MachinesController < ApplicationController
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         filename: "Preventivo#{@machine.code}",
         disposition: 'attachment'
-
       )
     else
       render json: { error: 'Archivo no encontrado' }, status: :internal_server_error
@@ -101,7 +100,9 @@ class MachinesController < ApplicationController
   end
 
   def show_maintenances
-    render json: @machine.maintenances
+    @q = @machine.maintenances.ransack(params[:q])
+    filtered_maintenances = @q.result(distinct: true)
+    render json: filtered_maintenances
   end
 
   private
@@ -115,6 +116,6 @@ class MachinesController < ApplicationController
 
   def machine_params
     params.require(:machine).permit(:code, :brand, :model, :horsepower, :routine_detail,
-                                    :corrective_detail, :preventive_detail)
+                                    :preventive_detail_annual, :preventive_detail_biannual, :frecuency, :q)
   end
 end

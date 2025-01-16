@@ -6,7 +6,7 @@ module GenerateSheet
   require 'caxlsx'
   require 'date'
 
-  def sheet_preventive
+  def sheet_preventive(frequency)
     package = Axlsx::Package.new
     workbook = package.workbook
     initialize_styles workbook
@@ -31,6 +31,27 @@ module GenerateSheet
         end
         sheet.add_row Array.new(15, ''), style: [@gray_bg_border_l] + Array.new(10, @centered_style) + [@gray_bg] + Array.new(2, @centered_style) + [@gray_bg_border_r]
       end
+
+      case frequency
+
+      when 'biannual'
+        row = sheet.rows[22]
+        row.cells[12].value = 'X'
+        row = sheet.rows[19]
+        row.cells[1].value = preventive_detail_biannual
+
+      when 'annual'
+        row = sheet.rows[25]
+        row.cells[12].value = 'X'
+        row = sheet.rows[19]
+        row.cells[1].value = preventive_detail_annual
+      else
+        row = sheet.rows[19]
+        row.cells[12].value = 'X'
+        row = sheet.rows[19]
+        row.cells[1].value = preventive_detail_biannual
+      end
+
       sheet.merge_cells('B20:K24')
       sheet.merge_cells('M20:N21')
       sheet.merge_cells('M22:N22')
