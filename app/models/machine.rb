@@ -3,13 +3,17 @@ class Machine < ApplicationRecord
   include GenerateCalendar
   # ASSOCIATIONS
   has_many :maintenances
-  ############################################################
-  # VALIDATIONS
-  ############################################################
+
   # ENUMS
   ############################################################
   # VALIDATIONS
   ############################################################
+  validates :code, :brand, :model, :horsepower, :routine_detail,
+            :preventive_detail_annual, :preventive_detail_biannual, presence: true
+
+  validates :code, uniqueness: true
+  validates :horsepower, numericality: { greater_than: 0 }
+
   # SCOPES
   ############################################################
   # CALLBACKS
@@ -24,12 +28,5 @@ class Machine < ApplicationRecord
     drive_service = GoogleDriveService.new
     folder = drive_service.create_folder(code, PARENT_ID)
     update(drive_id: folder.id)
-  end
-
-  # CLASS METHODS
-  ############################################################
-  def self.metodo
-    machine = Machine.first
-    machine.sheet_preventive
   end
 end

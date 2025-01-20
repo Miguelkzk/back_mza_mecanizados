@@ -1,5 +1,7 @@
 class MaintenancesController < ApplicationController
+  before_action :authenticate_user!
   def upload
+    authorize Maintenance
     file = params[:file]
     folder_id = params[:folder_id]
 
@@ -21,6 +23,16 @@ class MaintenancesController < ApplicationController
       end
     else
       render json: { error: 'No file uploaded' }, status: :bad_request
+    end
+  end
+
+  def destroy
+    authorize Maintenance
+    maintenance = Maintenance.find(params[:id])
+    if maintenance.destroy
+      render json: maintenance
+    else
+      render json: maintenance.error.details, status: :unprocessable_entity
     end
   end
 

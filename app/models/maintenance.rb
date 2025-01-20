@@ -14,18 +14,23 @@ class Maintenance < ApplicationRecord
   ############################################################
   scope :filter_by_issue_date_month, ->(month) { where('EXTRACT(MONTH FROM issue_date) = ?', month.to_i) }
   scope :filter_by_issue_date_year, ->(year) {
-  where("CAST(EXTRACT(YEAR FROM issue_date) AS TEXT) LIKE ?", "%#{year}%")
-}
+  where('CAST(EXTRACT(YEAR FROM issue_date) AS TEXT) LIKE ?', "%#{year}%")}
 
   # CALLBACKS
   ############################################################
   after_create :set_drive_url
+  before_destroy :delete_drive_file
 
   # INSTANCE METHODS
   ############################################################
   def set_drive_url
     url = "https://drive.google.com/file/d/#{drive_id}/view"
     update(view_url: url)
+  end
+
+  def delete_drive_file
+    google_drive = GoogleDriveService.new
+    google_drive.delete_file(drive_id)
   end
 
   # CLASS METHODS
