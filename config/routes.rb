@@ -10,11 +10,11 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   # drive routes
-  # get 'drive/files', to: 'drive#index'
-  # get 'drive/files/:id/view', to: 'drive#show'
-  # post 'drive/folders', to: 'drive#create_folder'
-  # delete 'drive/folders/:id', to: 'drive#destroy'
-  # post 'drive/upload', to: 'drive#upload'
+  get 'drive/files', to: 'drive#index'
+  get 'drive/files/:id/view', to: 'drive#show'
+  post 'drive/folders', to: 'drive#create_folder'
+  delete 'drive/folders/:id', to: 'drive#destroy'
+  post 'drive/upload', to: 'drive#upload'
 
   resources :clients do
   end
@@ -70,6 +70,24 @@ Rails.application.routes.draw do
     member do
       get :show_childrens
     end
+  end
+
+  resources :machines do
+    member do
+      post :generate_routine_sheet
+      post :generate_corrective_sheet
+      post :generate_preventive_sheet
+      get :show_maintenances
+    end
+  end
+
+  resources :maintenances do
+    collection do
+      post :upload
+    end
+  end
+
+  resources :events do
   end
 
   # rutas para usuarios
