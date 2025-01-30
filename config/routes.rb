@@ -87,6 +87,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :events do
+  end
+
   # rutas para usuarios
   post 'signup', to: 'users#create'
   post 'login', to: 'auth#login'
