@@ -113,7 +113,7 @@ class MachinesController < ApplicationController
     authorize @machine
 
     @q = @machine.maintenances.ransack(params[:q])
-    filtered_maintenances = @q.result(distinct: true)
+    filtered_maintenances = @q.result(distinct: true).order(issue_date: :desc)
     render json: filtered_maintenances
   end
 
@@ -131,4 +131,3 @@ class MachinesController < ApplicationController
                                     :preventive_detail_annual, :preventive_detail_biannual, :frecuency, :q)
   end
 end
-
