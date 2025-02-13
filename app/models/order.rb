@@ -154,7 +154,7 @@ class Order < ApplicationRecord
       sheet.add_row ['CONTROL DIMENSIONAL', '', '', ''], style: centered_b_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.merge_cells "A#{material_end_row + 12}:D#{material_end_row + 13}"
-      sheet.add_row ['Instrumento', 'Nro de certificado', 'Procedimiento', 'Inspector'], style: centered_style_with_color
+      sheet.add_row ['Instrumento', 'Nro de certificado', 'Cota a controlar', 'Valor obtenido'], style: centered_style_with_color
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
       sheet.add_row ['', '', '', ''], style: centered_style
