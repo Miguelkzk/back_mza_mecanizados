@@ -1,16 +1,48 @@
 class SuppliersController < ApplicationController
-  before_action :set_supplier, only: %i[show update destroy]
+  before_action :set_supplier, only: %i[show update destroy show_notes]
   before_action :authenticate_user!
+
+  def index_with_note
+    authorize Supplier
+    name = params[:name]
+    suppliers = Supplier.by_name(name).all
+
+    render json:
+      suppliers.map { |supplier|
+        {
+          id: supplier.id,
+          name: supplier.name,
+          phone: supplier.phone,
+          email: supplier.email,
+          note: supplier.average_note.round(2)
+        }
+      }
+  end
 
   def index
     authorize Supplier
     name = params[:name]
-    render json: Supplier.by_name(name).all
+    suppliers = Supplier.by_name(name).all
+
+    render json: suppliers
   end
 
   def show
     authorize @supplier
     render json: @supplier
+  end
+
+  def show_notes
+    authorize Supplier
+    render json: {
+      total_note: @supplier.average_note.round(2),
+      average_quality_note: @supplier.average_note(:quality_note).round(2),
+      average_cost_note: @supplier.average_note(:cost_note).round(2),
+      average_delivery_note: @supplier.average_note(:delivery_note).round(2),
+      average_service_note: @supplier.average_note(:service_note).round(2),
+      average_methods_of_payment_note: @supplier.average_note(:methods_of_payment_note).round(2),
+      evaluations: @supplier.assessments.order(assessed_at: :desc)
+    }
   end
 
   def create
@@ -45,7 +77,7 @@ class SuppliersController < ApplicationController
   private
 
   def supplier_params
-    params.require(:supplier).permit(:name)
+    params.require(:supplier).permit(:name, :phone, :email)
   end
 
   def set_supplier
