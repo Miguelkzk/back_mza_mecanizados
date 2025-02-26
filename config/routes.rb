@@ -35,7 +35,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :suppliers
+  resources :suppliers do
+    collection do
+      get :index_with_note
+    end
+    member do
+      get :show_notes
+    end
+  end
   resources :materials
 
   resources :certificate_of_materials do
@@ -88,6 +95,9 @@ Rails.application.routes.draw do
   end
 
   resources :events do
+  end
+
+  resources :assessments do
   end
 
   # rutas para usuarios

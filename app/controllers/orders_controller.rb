@@ -23,8 +23,10 @@ class OrdersController < ApplicationController
           id: order.id,
           purchase_order: order.purchase_order,
           client: order.client.name,
-          name: order.name,
-          state: order.state
+          description: order.name,
+          estimated_delivery_date: order.estimated_delivery_date.strftime('%d/%m/%Y'),
+          state: order.state,
+          proximity: (order.estimated_delivery_date.to_date - Date.today).to_i
         }
       },
       total_pages: orders.total_pages, # Devuelve información de la pag
@@ -33,6 +35,7 @@ class OrdersController < ApplicationController
       prev_page: orders.prev_page
     }
   end
+
 
   def show
     authorize @order

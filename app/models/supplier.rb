@@ -5,6 +5,7 @@ class Supplier < ApplicationRecord
 
   has_many :materials
   has_many :orders, through: :materials
+  has_many :assessments
 
   ############################################################################################
   # VALIDATIONS
@@ -24,6 +25,9 @@ class Supplier < ApplicationRecord
   ############################################################################################
   # INSTANCE METHODS
   ############################################################################################
+  def average_note(attribute = :total_note)
+    assessments.average(attribute).to_f
+  end
 
   ############################################################################################
   # CLASS METHODS
