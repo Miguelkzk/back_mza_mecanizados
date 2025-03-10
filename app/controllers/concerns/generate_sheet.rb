@@ -144,6 +144,23 @@ module GenerateSheet
     temp_file
   end
 
+  def production_sheet(orders, year)
+    package = Axlsx::Package.new
+    workbook = package.workbook
+    initialize_styles workbook
+    workbook.add_worksheet(name: 'Informe producción') do |sheet|
+      sheet.add_row ["INFORME DE PRODUCCION DE : #{year.present? ? year : 'TODOS LOS AÑOS'}"], style: Array.new(5, @centered_b_style)
+      sheet.merge_cells('A1:E1')
+      sheet.add_row ['OT', 'Cliente', 'Descripción', 'Fecha de ingreso', 'Fecha de entrega'], style: Array.new(5, @centred_with_color)
+      orders.each do |order|
+        sheet.add_row [order.id, order.client.name, order.name, order.ingresed_at.strftime('%d/%m/%Y'), order.delivery_at.present? ? order.delivery_at.strftime('%d/%m/%Y') : 'En curso'], style: Array.new(5, @centered_style)
+      end
+      sheet.add_row ['Emitido: ', Date.today.strftime('%d/%m/%Y')]
+    end
+    temp_file = Tempfile.new(['order', '.xlsx'])
+    package.serialize(temp_file.path)
+    temp_file
+  end
 
   private
 
@@ -157,6 +174,7 @@ module GenerateSheet
     @gray_bg_border_l = Styles.gray_bg_border_l(workbook)
     @gray_bg_border_r = Styles.gray_bg_border_r(workbook)
     @gray_bg_border = Styles.gray_bg_border(workbook)
-
+    @centred_with_color = Styles.centred_with_color(workbook)
   end
+
 end

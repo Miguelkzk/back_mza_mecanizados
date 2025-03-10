@@ -48,7 +48,6 @@ module Styles
       alignment: { horizontal: :center, vertical: :center, wrap_text: true },
       sz: 10,
     )
-
   end
 
   def self.gray_bg_border_l(workbook)
@@ -92,4 +91,13 @@ module Styles
     )
   end
 
+  def self.centred_with_color(workbook)
+    workbook.styles.add_style(
+      sz: 10,
+      b: true, # negrita,
+      bg_color: '61d2f0',
+      border: { style: :thin, color: '000000' },
+      alignment: { horizontal: :center, vertical: :center, wrap_text: true }
+    )
+  end
 end

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :orders do
     collection do
       get :filter_by_state
+      post :production_sheet
     end
     member do
       post :generate_work_order

@@ -6,4 +6,8 @@ class OrderPolicy < ApplicationPolicy
   def generate_work_order?
     user.admin?
   end
+
+  def production_sheet?
+    user.admin?
+  end
 end

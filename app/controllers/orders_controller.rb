@@ -85,6 +85,27 @@ class OrdersController < ApplicationController
     end
   end
 
+  def production_sheet
+    authorize Order
+    year = params[:year]
+    temp_file = Order.generate_produccion_sheet(year: year)
+
+    if temp_file && File.exist?(temp_file.path)
+      file_content = File.read(temp_file.path)
+      temp_file.close
+      temp_file.unlink
+
+      send_data(
+        file_content,
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        filename: 'Informe produccion.xlsx',
+        disposition: 'attachment'
+      )
+    else
+      render json: { error: 'Archivo no encontrado' }, status: :internal_server_error
+    end
+  end
+
   def create
     authorize Order
     order = Order.new(order_params)
@@ -125,6 +146,6 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(:name, :purchase_order, :quantity, :ingresed_at, :estimated_delivery_date,
-                                  :delivery_at, :unit_price, :comment, :state, :currency, :client_id, :client_name)
+                                  :delivery_at, :unit_price, :comment, :state, :currency, :client_id, :client_name, :year)
   end
 end

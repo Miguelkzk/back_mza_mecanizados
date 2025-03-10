@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
   require 'caxlsx'
+  extend GenerateSheet
 
   ############################################################################################
   # ENUMS
@@ -223,5 +224,11 @@ class Order < ApplicationRecord
       end
     end
     { total_ars: total_ars, total_usd: total_usd }
+  end
+
+  def self.generate_produccion_sheet(year: nil)
+    orders = year.present? ? Order.where('extract(year from ingresed_at) = ?', year) : Order.all
+    orders = orders.order(:id)
+    production_sheet orders, year
   end
 end
