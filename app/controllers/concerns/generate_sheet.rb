@@ -149,11 +149,13 @@ module GenerateSheet
     workbook = package.workbook
     initialize_styles workbook
     workbook.add_worksheet(name: 'Informe producción') do |sheet|
-      sheet.add_row ["INFORME DE PRODUCCION DE : #{year.present? ? year : 'TODOS LOS AÑOS'}"], style: Array.new(5, @centered_b_style)
+      sheet.add_row ["INFORME DE PRODUCCION DE : #{year.present? ? year : 'TODOS LOS AÑOS'}"], style: Array.new(6, @centered_b_style)
       sheet.merge_cells('A1:E1')
-      sheet.add_row ['OT', 'Cliente', 'Descripción', 'Fecha de ingreso', 'Fecha de entrega'], style: Array.new(5, @centred_with_color)
+      sheet.add_row ['OT', 'Cliente', 'Descripción', 'Fecha de ingreso', 'Fecha pactada de entrega', 'Fecha de entrega real'], style: Array.new(6, @centred_with_color)
       orders.each do |order|
-        sheet.add_row [order.id, order.client.name, order.name, order.ingresed_at.strftime('%d/%m/%Y'), order.delivery_at.present? ? order.delivery_at.strftime('%d/%m/%Y') : 'En curso'], style: Array.new(5, @centered_style)
+        sheet.add_row [order.id, order.client.name, order.name, order.ingresed_at.strftime('%d/%m/%Y'),
+                       order.estimated_delivery_date.strftime('%d/%m/%Y'),
+                       order.delivery_at.present? ? order.delivery_at.strftime('%d/%m/%Y') : 'En curso'], style: Array.new(6, @centered_style)
       end
       sheet.add_row ['Emitido: ', Date.today.strftime('%d/%m/%Y')]
     end
