@@ -8,6 +8,7 @@ module GenerateSheet
 
   def sheet_preventive(frequency)
     package = Axlsx::Package.new
+    package.use_shared_strings = true  # Optimiza para Excel 2007-365
     workbook = package.workbook
     initialize_styles workbook
     workbook.add_worksheet(name: 'Orden de mantenimiento') do |sheet|
@@ -74,6 +75,7 @@ module GenerateSheet
 
   def sheet_corrective(_month, _year)
     package = Axlsx::Package.new
+    package.use_shared_strings = true  # Optimiza para Excel 2007-365
     workbook = package.workbook
     initialize_styles workbook
 
@@ -103,6 +105,7 @@ module GenerateSheet
 
   def sheet_routine(month, year)
     package = Axlsx::Package.new
+    package.use_shared_strings = true  # Optimiza para Excel 2007-365
     workbook = package.workbook
     month_name = I18n.t('date.month_names')[month]
     initialize_styles workbook
@@ -146,6 +149,7 @@ module GenerateSheet
 
   def production_sheet(orders, year)
     package = Axlsx::Package.new
+    package.use_shared_strings = true  # Optimiza para Excel 2007-365
     workbook = package.workbook
     initialize_styles workbook
     workbook.add_worksheet(name: 'Informe producción') do |sheet|

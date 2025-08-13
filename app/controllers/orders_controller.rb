@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
           proximity: (order.estimated_delivery_date.to_date - Date.today).to_i
         }
       },
-      total_pages: orders.total_pages, # Devuelve información de la pag
+      total_pages: orders.total_pages,
       current_page: orders.current_page,
       next_page: orders.next_page,
       prev_page: orders.prev_page

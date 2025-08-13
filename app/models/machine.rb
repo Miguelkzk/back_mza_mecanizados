@@ -29,4 +29,16 @@ class Machine < ApplicationRecord
     folder = drive_service.create_folder(code, PARENT_ID)
     update(drive_id: folder.id)
   end
+
+  ############################################################
+  # Class methods
+  ############################################################
+  def self.generate_routine_sheet_all(year:, month:)
+    sheets = []
+    all.each do |machine|
+      sheet = machine.sheet_routine(month, year)
+      sheets << { machine: machine.code, sheet: }
+    end
+    sheets
+  end
 end

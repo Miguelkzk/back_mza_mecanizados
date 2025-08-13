@@ -5,12 +5,12 @@ module FormatSheet
     sheet.merge_cells('A1:D4')
     sheet.add_image(image_src: 'public/logo cut.png', noSelect: true, noMove: true) do |image|
       image.start_at 0, 0
-      image.width = 220 # ancho de la imagen
-      image.height = 90 # alto de la imagen
+      image.width = 200 # ancho de la imagen
+      image.height = 70 # alto de la imagen
     end
     # encabezado
     sheet.add_row Array.new(4, '') + ['MANTENIMIENTO DE INFRAESTRUCTURA'] + Array.new(10, ''), style: @centered_b_style
-    sheet.add_row []
+    sheet.add_row Array.new(15, '')
     sheet.merge_cells('E1:O2')
     sheet.add_row Array.new(4, '') + ['ORDEN DE MANTENIMIENTO'] + Array.new(7, '') +
                   ['Nº ORDEN:', '', "#{self.maintenances.where(type_maintenance: type).count + 1}"],
