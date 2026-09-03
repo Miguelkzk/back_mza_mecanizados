@@ -19,14 +19,11 @@ class GoogleDriveService
   end
 
   def create_folder(name, parent_id = nil)
-    file_metadata = {
-      name: name,
-      mime_type: 'application/vnd.google-apps.folder'
-    }
+    file_metadata = { name: name, mime_type: 'application/vnd.google-apps.folder'}
     file_metadata[:parents] = [parent_id] if parent_id
 
     # Llamada para crear carpeta y me devuelve la carpeta creada
-    @service.create_file(file_metadata, fields: 'id')
+    create_file(file_metadata, { fields: 'id' }, parent_id)
   end
 
   def delete_file(file_id)
@@ -34,25 +31,33 @@ class GoogleDriveService
   end
 
   def upload_file(file_name, file_path, parent_id = nil)
-    file_metadata = {
-      name: file_name,
-      parents: parent_id ? [parent_id] : []
-    }
-
     file = Google::Apis::DriveV3::File.new
-
     file.name = file_name
     file.parents = [parent_id] if parent_id
 
-    result = @service.create_file(
-      file,
-      upload_source: file_path,
-      content_type: 'application/octet-stream'
-    )
-
-    result
+    create_file(file, { upload_source: file_path, content_type: 'application/octet-stream' }, parent_id)
   end
 
+  # hay un bug que la api de google que a veces muestra una carpeta como que no existe cuando en realidad si.
+  # Se soluciona haciendo un find de esa carpeta.
+  def create_file(file, attrs, parent_id = nil)
+    @service.create_file(file, **attrs)
+  rescue Google::Apis::ClientError => e
+    raise e unless e.message.include?('notFound') && parent_id.present?
+
+    result = get_by_id(parent_id)
+    raise e unless result[:status]
+
+    @service.create_file(file, **attrs)
+  end
+
+  def get_by_id(file_or_folder_id)
+    file = @service.get_file(file_or_folder_id, fields: 'id, name, mimeType')
+
+    { status: true, response: file }
+  rescue Google::Apis::ClientError
+    { status: false }
+  end
 
   private
 
